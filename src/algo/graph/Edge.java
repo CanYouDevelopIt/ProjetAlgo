@@ -1,7 +1,5 @@
 package algo.graph;
 
-import java.util.HashMap;
-
 public class Edge {
 
 	private Node nodeUn;

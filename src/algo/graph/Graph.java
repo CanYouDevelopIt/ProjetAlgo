@@ -66,7 +66,7 @@ public class Graph{
 				 if(nodesEffectues.get(nodeFils).equals(false)){
 					 if(nodeFils.equals(nodeArrive)){
 						 System.out.print(nodeFils.getId());
-						 System.out.print("\n Trouv�");
+						 System.out.print("\n Trouvé");
 						 nodeArriveTrouve = true;
 					 }
 					 distance.put(nodeFils, e.getDistance());
