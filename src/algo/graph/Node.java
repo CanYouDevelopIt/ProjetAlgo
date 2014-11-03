@@ -3,9 +3,6 @@ package algo.graph;
 import java.util.ArrayList;
 import java.util.List;
 
-import algo.graph.interfaces.IEdge;
-import algo.graph.interfaces.INode;
-
 public class Node{
 	
 	private String id;

@@ -1,14 +1,9 @@
 package algo.graph;
 
-import java.util.List;
-
-import algo.graph.interfaces.IEdge;
-import algo.graph.interfaces.INode;
-
 public class Application {
 
 	public static void main(String[] args) {
-		
+
 		Graph graph = new Graph();
 
 		// Build node.
@@ -25,7 +20,7 @@ public class Application {
 		graph.registerNode(valence);
 		graph.registerNode(gap);
 		graph.registerNode(marseille);
-		
+
 		// Build edges
 		new Edge(paris, lyon, 400);
 		new Edge(lyon, grenoble, 100);
@@ -34,9 +29,9 @@ public class Application {
 		new Edge(grenoble, gap, 100);
 		new Edge(gap, marseille, 150);
 		new Edge(valence, marseille, 250);
-		
+
 		graph.cheminPlusCourt(paris, marseille);
-		
+
 	}
 
 }
