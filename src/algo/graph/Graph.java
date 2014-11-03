@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-import algo.graph.interfaces.IEdge;
-import algo.graph.interfaces.IGraph;
-import algo.graph.interfaces.INode;
 
 public class Graph{
 	
@@ -69,7 +66,7 @@ public class Graph{
 				 if(nodesEffectues.get(nodeFils).equals(false)){
 					 if(nodeFils.equals(nodeArrive)){
 						 System.out.print(nodeFils.getId());
-						 System.out.print("\n Trouvé");
+						 System.out.print("\n Trouvï¿½");
 						 nodeArriveTrouve = true;
 					 }
 					 distance.put(nodeFils, e.getDistance());
