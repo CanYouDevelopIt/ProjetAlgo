@@ -58,7 +58,7 @@ public class Graph{
 		 
 		 nodePere = nodeDepart;
 		 
-		 while (!nodeArriveTrouve){
+		 while(!nodeArriveTrouve){
 			 System.out.print(nodePere.getId() + " - ");
 			 for(Edge e: nodePere.getEdges()){
 				 nodeFils = e.getOther(nodePere);
@@ -86,7 +86,6 @@ public class Graph{
 				 }
 				 nodePere = nodesFils.get(0);
 			 }
-			 
 			 nodesFils.clear();
 		 }
 			

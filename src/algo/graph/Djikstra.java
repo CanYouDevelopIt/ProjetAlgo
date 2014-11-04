@@ -2,6 +2,8 @@ package algo.graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 import algo.graph.Node;
 
 public class Djikstra<T> {
@@ -34,9 +36,12 @@ public class Djikstra<T> {
 			for(Edge e: nodePere.getEdges()){
 				
 				nodeFils = e.getOther(nodePere);
-				System.out.println(nodeFils.getId());
+				System.out.println(nodeFils.getId() + ":" + e.getDistance());
 				
-				
+//				LinkSimple listNodes = new LinkSimple();
+//				listNodes.add(nodePere);
+//				listNodes.add(nodeFils);				
+//				newListePassage.add(listNodes, e.getDistance());
 				
 			}
 			
