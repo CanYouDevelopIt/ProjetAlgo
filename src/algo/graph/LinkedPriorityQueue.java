@@ -1,15 +1,15 @@
-package algo.queue;
+package algo.graph;
 
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
-import algo.linkedlist.nodes.LinkSimple;
-import algo.queue.interfaces.IPriorityQueue;
+import algo.graph.LinkSimple;
+import algo.graph.Node;
 
-public class LinkedPriorityQueue<Node> {
+public class LinkedPriorityQueue {
 
-	private LinkSimple<Node> linkSimple = new LinkSimple<Node>();
+	private LinkSimple linkSimple = new LinkSimple();
 
 	private int listCount = 0;
 
@@ -19,36 +19,43 @@ public class LinkedPriorityQueue<Node> {
 		this.setComparator(null);
 	}
 
-	public LinkedPriorityQueue(Collection<? extends LinkSimple<Node>> c) {
-		this.setComparator(null);
-		for (LinkSimple<Node> ls : c) {
-			add(ls.getValue());
-			listCount++;
-		}
-	}
+//	public LinkedPriorityQueue(Collection<? extends LinkSimple> c) {
+//		this.setComparator(null);
+//		for (LinkSimple ls : c) {
+//			add(ls.getValue());
+//			listCount++;
+//		}
+//	}
 
 	public LinkedPriorityQueue(Comparator<Node> comp) {
 		this.setComparator(comp);
 	}
 
-	public LinkedPriorityQueue(Comparator<Node> comp, LinkSimple<Node> ls) {
+	public LinkedPriorityQueue(Comparator<Node> comp, LinkSimple ls) {
 		this.setComparator(comp);
 		this.linkSimple = ls;
 	}
 
 	public void add(Node e) {
-		LinkSimple<Node> newValue = new LinkSimple<Node>();
+		LinkSimple newValue = new LinkSimple();
 		newValue.setValue(e);
 		  if (linkSimple.getValue() == null) {
 			   linkSimple = newValue;
 		  } else {
-			  LinkSimple<Node> actual = linkSimple;
+			  LinkSimple actual = linkSimple;
 			  while (actual.getNext() != null) {
-				  actual = (LinkSimple<Node>) actual.getNext();
+				  actual = (LinkSimple) actual.getNext();
 			  }
 			  	  actual.setNext(newValue);
 		  }
 		  listCount++;
+	}
+	public void add(Collection<? extends LinkSimple> c, int distance){
+
+		for (LinkSimple ls : c) {
+			add(ls.getValue());
+			listCount++;
+		}
 	}
 
 	/**
@@ -60,7 +67,7 @@ public class LinkedPriorityQueue<Node> {
 			throw new NoSuchElementException(
 					"L'element a enlever est inexistant.");
 		} else {
-			linkSimple = (LinkSimple<Node>) linkSimple.getNext();
+			linkSimple = (LinkSimple) linkSimple.getNext();
 			listCount--;
 			return linkSimple.getValue();
 		}
@@ -79,7 +86,7 @@ public class LinkedPriorityQueue<Node> {
 			   return null;
 			  } else {
 			   Node oldHeadValue = linkSimple.getValue();
-			   linkSimple = (LinkSimple<Node>) linkSimple.getNext();
+			   linkSimple = (LinkSimple) linkSimple.getNext();
 			   listCount--;
 			   return oldHeadValue;
 		}
@@ -111,11 +118,11 @@ public class LinkedPriorityQueue<Node> {
 	 * Getters & Setters
 	 * 
 	 * */
-	public LinkSimple<Node> getLinkSimple() {
+	public LinkSimple getLinkSimple() {
 		return linkSimple;
 	}
 
-	public void setLinkSimple(LinkSimple<Node> linkSimple) {
+	public void setLinkSimple(LinkSimple linkSimple) {
 		this.linkSimple = linkSimple;
 	}
 
@@ -136,7 +143,7 @@ public class LinkedPriorityQueue<Node> {
 	}
 
 	public void print() {
-		LinkSimple<Node> ls = linkSimple;
+		LinkSimple ls = linkSimple;
 		int i = 0;
 		if (ls == null) {
 			System.out.println("Link Simple is empty.");
@@ -144,7 +151,7 @@ public class LinkedPriorityQueue<Node> {
 		}
 		while (ls != null) {
 			System.out.println((++i) + " = " + ls.getValue());
-			ls = (LinkSimple<Node>) ls.getNext();
+			ls = (LinkSimple) ls.getNext();
 		}
 	}
 
