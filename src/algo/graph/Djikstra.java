@@ -22,30 +22,35 @@ public class Djikstra<T> {
 			return;
 		}
 		
+		List<Node> listNoeud = new ArrayList<Node>();
 		LinkedPriorityQueue newListePassage = new LinkedPriorityQueue();
-		Node nodePere = null;
-		Node nodeFils = null;
 		
-		listePassage.add(nodeDepart);
+		Node nodePere = nodeDepart;
+		Node nodeFils = null;
+		List<Node> listNoeudActuel = null;
+		
+		listNoeud.add(nodePere);
+		listePassage.add(listNoeud);
 		
 		for(int i=0; i < listePassage.size(); i++){
 			
-			nodePere = listePassage.peek();
+			listNoeudActuel = listePassage.peek();
+			nodePere = listNoeudActuel.get(listNoeudActuel.size() - 1);
 			System.out.println("NodePere = " + nodePere.getId());
-			
-			for(Edge e: nodePere.getEdges()){
 				
+			for(Edge e: nodePere.getEdges()){
+					
 				nodeFils = e.getOther(nodePere);
 				System.out.println(nodeFils.getId() + ":" + e.getDistance());
-				
-//				LinkSimple listNodes = new LinkSimple();
-//				listNodes.add(nodePere);
-//				listNodes.add(nodeFils);				
-//				newListePassage.add(listNodes, e.getDistance());
-				
-			}
-			
+				for(int k=0; k < listNoeudActuel.size(); k++){
+					listNoeud.add(listNoeudActuel.get(k));
+				}
+				listNoeud.add(nodeFils);
+					
+				newListePassage.add(listNoeud);
+					
+			}				
 		}
-		
+		listePassage = newListePassage;
 	}
 }

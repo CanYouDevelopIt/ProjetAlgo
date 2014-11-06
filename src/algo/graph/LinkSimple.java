@@ -1,24 +1,26 @@
 package algo.graph;
 
+import java.util.List;
+
 
 public class LinkSimple {
 
-	Node value;
+	List<Node> listNodes;
 	LinkSimple next;
 
 	public LinkSimple() {
 	}
 
-	public LinkSimple(Node t) {
-		this.value = t;
+	public LinkSimple(List<Node> n) {
+		this.listNodes = n;
 	}
 
-	public Node getValue() {
-		return value;
+	public List<Node> getListNodes() {
+		return listNodes;
 	}
 
-	public void setValue(Node value) {
-		this.value = value;
+	public void setListNodes(List<Node> n) {
+		this.listNodes = n;
 	}
 
 	public LinkSimple getNext() {
