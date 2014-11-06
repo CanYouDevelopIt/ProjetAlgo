@@ -49,13 +49,18 @@ public class MapBuilder {
 					for(int j = 0; j < nodes[i].length; j++){
 						if(nodes[i][j] != null){
 							graph.registerNode(nodes[i][j]);
-							if(nodes[i][j-1] != null){
-								
+							if(nodes[i][j+1] != null){
+								new Edge(nodes[i][j], nodes[i][j+1], 1);
+							}
+							if(nodes[i+1][j+1] != null){
+								new Edge(nodes[i][j], nodes[i+1][j+1], 1);								
+							}
+							if(nodes[i+1][j] != null){
+								new Edge(nodes[i][j], nodes[i+1][j], 1);
 							}
 						}
 					}
 				}
-				System.out.println(graph.getNodes().size());
 				
 			}
 	}
