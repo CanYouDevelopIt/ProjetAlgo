@@ -35,18 +35,18 @@ public class LinkedPriorityQueue {
 		newValue.setListNodes(n);
 		newValue.setNext(null);
 		// LinkSimmple == NULL
-		  if (linkSimple == null) {
-			   linkSimple = newValue;
-		  } else {
-			  LinkSimple actual = linkSimple;
-			  while (actual.getNext() != null) {
-				  actual = (LinkSimple) actual.getNext();
-			  }
-			  	  actual.setNext(newValue);
-		  }
-		  listCount++;
+		if (linkSimple == null) {
+			linkSimple = newValue;
+		} else {
+			LinkSimple actual = linkSimple;
+			while (actual.getNext() != null) {
+				actual = (LinkSimple) actual.getNext();
+			}
+			actual.setNext(newValue);
+		}
+		listCount++;
 	}
-	
+
 	/**
 	 * Remove throws NoSuchElementException
 	 * */
@@ -71,13 +71,13 @@ public class LinkedPriorityQueue {
 	}
 
 	public List<Node> poll() {
-		 if (linkSimple.getNext() == null || linkSimple == null) {
-			   return null;
-			  } else {
-			   List<Node> oldHeadValue = linkSimple.getListNodes();
-			   linkSimple = (LinkSimple) linkSimple.getNext();
-			   listCount--;
-			   return oldHeadValue;
+		if (linkSimple == null) {
+			return null;
+		} else {
+			List<Node> oldHeadValue = linkSimple.getListNodes();
+			linkSimple = (LinkSimple) linkSimple.getNext();
+			listCount--;
+			return oldHeadValue;
 		}
 	}
 
