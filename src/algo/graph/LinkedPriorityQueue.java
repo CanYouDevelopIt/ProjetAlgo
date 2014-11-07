@@ -10,7 +10,7 @@ import algo.graph.Node;
 
 public class LinkedPriorityQueue {
 
-	private LinkSimple linkSimple = new LinkSimple();
+	private LinkSimple linkSimple;
 
 	private int listCount = 0;
 
@@ -30,9 +30,12 @@ public class LinkedPriorityQueue {
 	}
 
 	public void add(List<Node> n) {
+		// Valeur à ajouter
 		LinkSimple newValue = new LinkSimple();
 		newValue.setListNodes(n);
-		  if (linkSimple.getListNodes() == null) {
+		newValue.setNext(null);
+		// LinkSimmple == NULL
+		  if (linkSimple == null) {
 			   linkSimple = newValue;
 		  } else {
 			  LinkSimple actual = linkSimple;
