@@ -29,10 +29,12 @@ public class LinkedPriorityQueue {
 		this.linkSimple = ls;
 	}
 
-	public void add(List<Node> n) {
+	public void add(List<Node> n, int distance) {
 		// Valeur à ajouter
+		LinkSimple temp = new LinkSimple();
 		LinkSimple newValue = new LinkSimple();
 		newValue.setListNodes(n);
+		newValue.setDistance(distance);
 		newValue.setNext(null);
 		// LinkSimmple == NULL
 		if (linkSimple == null) {
@@ -40,6 +42,18 @@ public class LinkedPriorityQueue {
 		} else {
 			LinkSimple actual = linkSimple;
 			while (actual.getNext() != null) {
+				
+				if(actual.getDistance() > newValue.getDistance()){
+					temp.setDistance(actual.getDistance());
+					temp.setListNodes(actual.getListNodes());
+					
+					actual.setDistance(newValue.getDistance());
+					actual.setListNodes(newValue.getListNodes());
+					
+					newValue.setDistance(temp.getDistance());
+					newValue.setListNodes(temp.getListNodes());
+				}
+				
 				actual = (LinkSimple) actual.getNext();
 			}
 			actual.setNext(newValue);

@@ -26,8 +26,11 @@ public class Djikstra<T> {
 		Node nodeFils = null;
 		List<Node> listNoeud = new ArrayList<Node>();
 		List<Node> listNoeudActuel = null;
+		int distance = 0;
+		
 		listNoeud.add(nodePere);
-		listePassage.add(listNoeud);
+		listePassage.add(listNoeud,distance);
+		
 		for (int i = 0; i < listePassage.size(); i++) {
 
 			listNoeudActuel = listePassage.poll();
@@ -41,14 +44,22 @@ public class Djikstra<T> {
 				listNoeud = new ArrayList<Node>();
 				listNoeud.addAll(listNoeudActuel);
 				listNoeud.add(nodeFils);
+
 				if (nodeFils.getId().equals(nodeArrive.getId())) {
 					System.out.print(distanceParcours(listNoeud) + " --> ");
+					
+					distance = distanceParcours(listNoeud);
 					printListNoeuds(listNoeud);
-					parcoursCorrecte.add(listNoeud);
+					parcoursCorrecte.add(listNoeud,distance);
 				}
-				listePassage.add(listNoeud);
+
+				listePassage.add(listNoeud,distance);
 			}
 		}
+		
+		listePassage = parcoursCorrecte;
+		this.printPaths(listePassage);
+		
 	}
 
 	private int distanceParcours(List<Node> listNoeud) {
@@ -85,6 +96,7 @@ public class Djikstra<T> {
 		LinkSimple ls = newListePassage.getLinkSimple();
 		while (ls != null) {
 			printListNoeuds(ls.getListNodes());
+			System.out.println( "Distance : " + ls.getDistance());
 			ls = ls.getNext();
 		}
 	}

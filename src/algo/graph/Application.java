@@ -40,7 +40,7 @@ public class Application {
 		Djikstra d = new Djikstra(graph);
 
 		d.cheminPlusCourt(A, G);
-
+		
 	}
 
 }

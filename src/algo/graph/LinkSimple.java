@@ -6,6 +6,7 @@ import java.util.List;
 public class LinkSimple {
 
 	List<Node> listNodes;
+	int distance;
 	LinkSimple next;
 
 	public LinkSimple() {
@@ -29,6 +30,14 @@ public class LinkSimple {
 
 	public void setNext(LinkSimple next) {
 		this.next = next;
+	}
+	
+	public int getDistance() {
+		return distance;
+	}
+
+	public void setDistance(int distance) {
+		this.distance = distance;
 	}
 
 }
