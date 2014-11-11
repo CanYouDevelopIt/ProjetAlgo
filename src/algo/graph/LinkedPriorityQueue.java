@@ -41,14 +41,26 @@ public class LinkedPriorityQueue {
 			linkSimple = newValue;
 		} else {
 			LinkSimple actual = linkSimple;
+			
+			if(actual.getDistance() > newValue.getDistance()){
+				temp.setDistance(actual.getDistance());
+				temp.setListNodes(actual.getListNodes());
+				
+				actual.setDistance(newValue.getDistance());
+				actual.setListNodes(newValue.getListNodes());
+				
+				newValue.setDistance(temp.getDistance());
+				newValue.setListNodes(temp.getListNodes());
+			}
+			
 			while (actual.getNext() != null) {
 				
-				if(actual.getDistance() > newValue.getDistance()){
-					temp.setDistance(actual.getDistance());
-					temp.setListNodes(actual.getListNodes());
+				if(actual.getNext().getDistance() > newValue.getDistance()){
+					temp.setDistance(actual.getNext().getDistance());
+					temp.setListNodes(actual.getNext().getListNodes());
 					
-					actual.setDistance(newValue.getDistance());
-					actual.setListNodes(newValue.getListNodes());
+					actual.getNext().setDistance(newValue.getDistance());
+					actual.getNext().setListNodes(newValue.getListNodes());
 					
 					newValue.setDistance(temp.getDistance());
 					newValue.setListNodes(temp.getListNodes());
@@ -56,6 +68,7 @@ public class LinkedPriorityQueue {
 				
 				actual = (LinkSimple) actual.getNext();
 			}
+			
 			actual.setNext(newValue);
 		}
 		listCount++;

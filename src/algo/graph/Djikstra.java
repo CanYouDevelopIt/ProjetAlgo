@@ -47,13 +47,12 @@ public class Djikstra<T> {
 				
 				distance = distanceParcours(listNoeud);
 				
-				if (nodeFils.getId().equals(nodeArrive.getId())) {
+				if(nodeFils.getId().equals(nodeArrive.getId())) {
 					System.out.print(distance + " --> ");
 					
 					printListNoeuds(listNoeud);
 					parcoursCorrecte.add(listNoeud,distance);
 				}
-
 				listePassage.add(listNoeud,distance);
 			}
 		}
