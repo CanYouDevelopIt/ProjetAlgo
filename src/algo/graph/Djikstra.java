@@ -44,11 +44,12 @@ public class Djikstra<T> {
 				listNoeud = new ArrayList<Node>();
 				listNoeud.addAll(listNoeudActuel);
 				listNoeud.add(nodeFils);
-
+				
+				distance = distanceParcours(listNoeud);
+				
 				if (nodeFils.getId().equals(nodeArrive.getId())) {
-					System.out.print(distanceParcours(listNoeud) + " --> ");
+					System.out.print(distance + " --> ");
 					
-					distance = distanceParcours(listNoeud);
 					printListNoeuds(listNoeud);
 					parcoursCorrecte.add(listNoeud,distance);
 				}
