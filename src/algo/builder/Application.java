@@ -13,6 +13,8 @@ public class Application {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		new MapFrame(mb.nbcol, mb.nbligne, mb.graph);
 	}
 
 }

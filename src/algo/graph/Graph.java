@@ -9,9 +9,9 @@ public class Graph{
 	
 	private Collection<Node> mesNodes;
 	
-	public Node getNode(String unId) {
+	public Node getNode(int x, int y) {
 		for(Node unNode : mesNodes){
-			if(unNode.getId() == unId){
+			if(unNode.getX() == x && unNode.getY() == y){
 				return unNode;
 			}
 		}
@@ -22,8 +22,8 @@ public class Graph{
 		mesNodes.add(unNode);
 	}
 
-	public void unregisterNode(String unId) {
-		mesNodes.remove(getNode(unId));
+	public void unregisterNode(String unId, int x, int y) {
+		mesNodes.remove(getNode(x, y));
 	}
 
 	public Collection<Node> getNodes() {
