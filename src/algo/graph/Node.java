@@ -32,5 +32,9 @@ public class Node{
 	public String getId() {
 		return id;
 	}	
+	
+	public boolean equals(Node n){
+		return this.x == n.getX() && this.y == n.getY();
+	}
 
 }

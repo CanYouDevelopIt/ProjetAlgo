@@ -27,10 +27,11 @@ public class Djikstra<T> {
 		List<Node> listNoeud = new ArrayList<Node>();
 		List<Node> listNoeudActuel = null;
 		int distance = 0;
-		
+		int minDistance = 999999999;
+
 		listNoeud.add(nodePere);
-		listePassage.add(listNoeud,distance);
-		
+		listePassage.add(listNoeud, distance);
+
 		for (int i = 0; i < listePassage.size(); i++) {
 
 			listNoeudActuel = listePassage.poll();
@@ -38,28 +39,28 @@ public class Djikstra<T> {
 			nodePere = listNoeudActuel.get(listNoeudActuel.size() - 1);
 			for (Edge e : nodePere.getEdges()) {
 				nodeFils = e.getOther(nodePere);
+
 				if (isNodeFilsInList(listNoeudActuel, nodeFils)) {
 					continue;
 				}
 				listNoeud = new ArrayList<Node>();
 				listNoeud.addAll(listNoeudActuel);
 				listNoeud.add(nodeFils);
-				
+
 				distance = distanceParcours(listNoeud);
-				
-				if(nodeFils.getId().equals(nodeArrive.getId())) {
-					System.out.print(distance + " --> ");
-					
+
+				if (nodeFils.equals(nodeArrive) && distance <= minDistance) {
+					minDistance = distance;
 					printListNoeuds(listNoeud);
-					parcoursCorrecte.add(listNoeud,distance);
+					parcoursCorrecte.add(listNoeud, minDistance);
 				}
-				listePassage.add(listNoeud,distance);
+				listePassage.add(listNoeud, distance);
 			}
 		}
-		
+
 		listePassage = parcoursCorrecte;
 		this.printPaths(listePassage);
-		
+
 	}
 
 	private int distanceParcours(List<Node> listNoeud) {
@@ -72,7 +73,7 @@ public class Djikstra<T> {
 			Node nodeActuel = listNoeud.get(i);
 			Node nodeSuivant = listNoeud.get(j);
 			for (Edge e : listNoeud.get(i).getEdges()) {
-				if (e.getOther(nodeActuel).getId().equals(nodeSuivant.getId())) {
+				if (e.getOther(nodeActuel).equals(nodeSuivant)) {
 					distance = distance + e.getDistance();
 				}
 			}
@@ -81,9 +82,9 @@ public class Djikstra<T> {
 	}
 
 	private boolean isNodeFilsInList(List<Node> listNoeudActuel, Node nodeFils) {
-		String nodeToCheckFor = nodeFils.getId();
+		// String nodeToCheckFor = nodeFils.getId();
 		for (Node aNode : listNoeudActuel) {
-			if (aNode.getId().equals(nodeToCheckFor)) {
+			if (aNode.equals(nodeFils)) {
 				// il existe dans la liste donc pas besoin de l'ajouter
 				return true;
 			}
@@ -92,18 +93,19 @@ public class Djikstra<T> {
 	}
 
 	public void printPaths(LinkedPriorityQueue newListePassage) {
-
+		System.out.println("Go ");
 		LinkSimple ls = newListePassage.getLinkSimple();
 		while (ls != null) {
 			printListNoeuds(ls.getListNodes());
-			System.out.println( "Distance : " + ls.getDistance());
+			System.out.println("Distance : " + ls.getDistance());
 			ls = ls.getNext();
 		}
 	}
 
 	public void printListNoeuds(List<Node> parcours) {
 		for (int a = 0; a < parcours.size(); a++) {
-			System.out.print(parcours.get(a).getId());
+			System.out.print("[" + parcours.get(a).getX() + ","
+					+ parcours.get(a).getY() + "]");
 		}
 		System.out.println("");
 	}
