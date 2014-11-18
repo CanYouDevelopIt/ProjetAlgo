@@ -2,10 +2,9 @@ package algo.graph;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import algo.graph.Node;
 
-public class Djikstra<T> {
+public class Djikstra{
 
 	private Graph graph;
 	private LinkedPriorityQueue listePassage;
@@ -15,10 +14,10 @@ public class Djikstra<T> {
 		this.listePassage = new LinkedPriorityQueue();
 	}
 
-	public void cheminPlusCourt(Node nodeDepart, Node nodeArrive) {
+	public LinkedPriorityQueue cheminPlusCourt(Node nodeDepart, Node nodeArrive) {
 
 		if (nodeDepart == null || nodeArrive == null) {
-			return;
+			return null;
 		}
 		LinkedPriorityQueue parcoursCorrecte = new LinkedPriorityQueue();
 
@@ -53,14 +52,15 @@ public class Djikstra<T> {
 					System.out.println("Here bro !!");
 					printListNoeuds(listNoeud);
 					parcoursCorrecte.add(listNoeud, distance);
+				}else{
+					listePassage.add(listNoeud, distance);
 				}
-				listePassage.add(listNoeud, distance);
 			}
 		}
 
 		listePassage = parcoursCorrecte;
 		this.printPaths(listePassage);
-
+		return listePassage;
 	}
 
 	private int distanceParcours(List<Node> listNoeud) {

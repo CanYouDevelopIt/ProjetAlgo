@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 import algo.graph.*;
 
@@ -17,6 +18,7 @@ public class MapBuilder {
 	Node[][] nodes;
 	int nbligne;
 	int nbcol;
+	
 	public void load(String f) throws IOException{
 		fichier = new File(f);
 		graph = new Graph();
@@ -54,15 +56,9 @@ public class MapBuilder {
 							if(nodes[i][j+1] != null){
 								new Edge(nodes[i][j], nodes[i][j+1], 1);
 							}
-						// if(nodes[i+1][j+1] != null){
-						// new Edge(nodes[i][j], nodes[i+1][j+1], 1);
-						// }
 							if(nodes[i+1][j] != null){
 								new Edge(nodes[i][j], nodes[i+1][j], 1);
 							}
-//							if(nodes[i+1][j-1] != null){
-//								new Edge(nodes[i][j], nodes[i+1][j-1], 1);
-//							}
 						}
 					}
 				}
@@ -96,4 +92,26 @@ public class MapBuilder {
 		    ex.printStackTrace();
 		}
 	}
+	
+	public void deplacerSouris(LinkedPriorityQueue listePassage, MapFrame mf){
+		
+		List<Node> cheminNoeud = listePassage.peek();
+		
+		for(int i = 1; i < cheminNoeud.size() - 1; i++){
+			
+			Node noeudActuel = cheminNoeud.get(i);
+			noeudActuel = graph.getNode(noeudActuel.getX(), noeudActuel.getY());
+			noeudActuel.setId("S");
+			mf = new MapFrame(this.nbcol, this.nbligne, this.graph);
+			//mf.repaint();
+			//mf.dispose();
+			System.out.println(noeudActuel.getX()+"-"+ noeudActuel.getY());
+			
+			noeudActuel.setId(noeudActuel.getIdOrigine());
+		}
+		
+		
+		
+	}
+	
 }
