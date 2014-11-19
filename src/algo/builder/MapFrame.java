@@ -36,7 +36,7 @@ public class MapFrame extends JFrame{
 					if(node.getId().equals(" ")){
 						BufferedImage myPicture;
 						try {
-							myPicture = ImageIO.read(new File("C:\\Users\\Jeremy\\Documents\\Git\\ProjetAlgo\\src\\algo\\builder\\espace.png"));
+							myPicture = ImageIO.read(new File("/Users/pascal/git/ProjetAlgo/src/algo/builder/espace.png"));
 							JLabel picLabel = new JLabel(new ImageIcon(myPicture));
 							jp.add(picLabel);	
 						} catch (IOException e) {
@@ -46,7 +46,7 @@ public class MapFrame extends JFrame{
 					} else if(node.getId().equals("D")){
 						BufferedImage myPicture;
 						try {
-							myPicture = ImageIO.read(new File("C:\\Users\\Jeremy\\Documents\\Git\\ProjetAlgo\\src\\algo\\builder\\d.png"));
+							myPicture = ImageIO.read(new File("/Users/pascal/git/ProjetAlgo/src/algo/builder/d.png"));
 							JLabel picLabel = new JLabel(new ImageIcon(myPicture));
 							jp.add(picLabel);	
 						} catch (IOException e) {
@@ -56,7 +56,7 @@ public class MapFrame extends JFrame{
 					} else if(node.getId().equals("A")){
 						BufferedImage myPicture;
 						try {
-							myPicture = ImageIO.read(new File("C:\\Users\\Jeremy\\Documents\\Git\\ProjetAlgo\\src\\algo\\builder\\a.png"));
+							myPicture = ImageIO.read(new File("/Users/pascal/git/ProjetAlgo/src/algo/builder/a.png"));
 							JLabel picLabel = new JLabel(new ImageIcon(myPicture));
 							jp.add(picLabel);	
 						} catch (IOException e) {
@@ -66,7 +66,7 @@ public class MapFrame extends JFrame{
 					} else if(node.getId().equals("G")){
 						BufferedImage myPicture;
 						try {
-							myPicture = ImageIO.read(new File("C:\\Users\\Jeremy\\Documents\\Git\\ProjetAlgo\\src\\algo\\builder\\buisson.png"));
+							myPicture = ImageIO.read(new File("/Users/pascal/git/ProjetAlgo/src/algo/builder/buisson.png"));
 							JLabel picLabel = new JLabel(new ImageIcon(myPicture));
 							jp.add(picLabel);	
 						} catch (IOException e) {
@@ -76,7 +76,7 @@ public class MapFrame extends JFrame{
 					} else if(node.getId().equals("S")){
 						BufferedImage myPicture;
 						try {
-							myPicture = ImageIO.read(new File("C:\\Users\\Jeremy\\Documents\\Git\\ProjetAlgo\\src\\algo\\builder\\s.png"));
+							myPicture = ImageIO.read(new File("/Users/pascal/git/ProjetAlgo/src/algo/builder/s.png"));
 							JLabel picLabel = new JLabel(new ImageIcon(myPicture));
 							jp.add(picLabel);	
 						} catch (IOException e) {
@@ -87,7 +87,7 @@ public class MapFrame extends JFrame{
 				} else {
 					BufferedImage myPicture;
 					try {
-						myPicture = ImageIO.read(new File("C:\\Users\\Jeremy\\Documents\\Git\\ProjetAlgo\\src\\algo\\builder\\etoile.png"));
+						myPicture = ImageIO.read(new File("/Users/pascal/git/ProjetAlgo/src/algo/builder/etoile.png"));
 						JLabel picLabel = new JLabel(new ImageIcon(myPicture));
 						jp.add(picLabel);	
 					} catch (IOException e) {

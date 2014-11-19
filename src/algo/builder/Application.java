@@ -11,7 +11,7 @@ public class Application {
 	public static void main(String[] args) {
 		MapBuilder mb = new MapBuilder();
 		try {
-			mb.load("C:\\Users\\Jeremy\\Documents\\Git\\ProjetAlgo\\src\\algo\\builder\\test1.txt");
+			mb.load("/Users/pascal/git/ProjetAlgo/src/algo/builder/test1.txt");
 			//mb.show(mb.graph);
 			
 			MapFrame mf = new MapFrame(mb.nbcol, mb.nbligne, mb.graph);
