@@ -3,22 +3,22 @@ package algo.graph;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Node{
-	
+public class Node {
+
 	private String id;
 	private String idOrigine;
 	private int x;
 	private int y;
 	private List<Edge> mesEdges;
-	
-	public Node(String unId, int x, int y){
+
+	public Node(String unId, int x, int y) {
 		id = unId;
 		idOrigine = unId;
 		this.x = x;
 		this.y = y;
 		mesEdges = new ArrayList<Edge>();
 	}
-	
+
 	public int getX() {
 		return x;
 	}
@@ -33,16 +33,16 @@ public class Node{
 
 	public String getId() {
 		return id;
-	}	
-	
-	public boolean equals(Node n){
+	}
+
+	public boolean equals(Node n) {
 		return this.x == n.getX() && this.y == n.getY();
 	}
-	
-	public void setId(String unId){
+
+	public void setId(String unId) {
 		this.id = unId;
 	}
-	
+
 	public String getIdOrigine() {
 		return idOrigine;
 	}
@@ -51,5 +51,8 @@ public class Node{
 		this.idOrigine = idOrigine;
 	}
 
-	
+	public String toString() {
+		return "[" + this.x + "," + this.y + "]";
+	}
+
 }
