@@ -33,7 +33,7 @@ public class Djikstra {
 		listePassage.add(listNoeud, distance);
 		boolean foundPath = false;
 		while (listePassage.getLinkSimple() != null) {
-
+			System.out.println(listePassage.getLinkSimple().getDistance());
 			listNoeudActuel = listePassage.poll();
 
 			nodePere = listNoeudActuel.get(listNoeudActuel.size() - 1);
@@ -56,6 +56,7 @@ public class Djikstra {
 					parcoursCorrecte.add(listNoeud, distance);
 					foundPath = true;
 				} else {
+					
 					listePassage.add(listNoeud, distance);
 				}
 			}
