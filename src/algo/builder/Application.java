@@ -11,18 +11,18 @@ public class Application {
 	public static void main(String[] args) {
 		MapBuilder mb = new MapBuilder();
 		try {
-			mb.load("C:\\Users\\Jeremy\\Documents\\Git\\ProjetAlgo\\src\\algo\\builder\\test.txt");
+			mb.load("C:\\Users\\Jeremy\\Documents\\Git\\ProjetAlgo\\src\\algo\\builder\\test1.txt");
 			//mb.show(mb.graph);
 			
 			MapFrame mf = new MapFrame(mb.nbcol, mb.nbligne, mb.graph);
 			
 			Djikstra d = new Djikstra(mb.graph);
 
-			Node nodeDepart = mb.graph.getNode(3, 3);
-			Node nodeArrive = mb.graph.getNode(38, 1);
+//			Node nodeDepart = mb.graph.getNode(3, 3);
+//			Node nodeArrive = mb.graph.getNode(38, 1);
 
-//			Node nodeDepart = mb.graph.getNode(1, 2);
-//			Node nodeArrive = mb.graph.getNode(4, 5);
+			Node nodeDepart = mb.graph.getNode(1, 2);
+			Node nodeArrive = mb.graph.getNode(4, 5);
 			
 			LinkedPriorityQueue listeCheminPlusCourt = d.cheminPlusCourt(nodeDepart, nodeArrive);
 			mb.deplacerSouris(listeCheminPlusCourt,mf);

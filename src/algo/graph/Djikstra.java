@@ -26,7 +26,6 @@ public class Djikstra{
 		List<Node> listNoeud = new ArrayList<Node>();
 		List<Node> listNoeudActuel = null;
 		int distance = 0;
-		int distanceMinimum = 0;
 
 		listNoeud.add(nodePere);
 		listePassage.add(listNoeud, distance);
@@ -48,29 +47,14 @@ public class Djikstra{
 				printListNoeuds(listNoeud);
 
 				distance = distanceParcours(listNoeud);
-				
-				if (parcoursCorrecte.size() > 0){
-					if(distanceMinimum >= distance){
-						if (nodeFils.equals(nodeArrive)) {
-							distanceMinimum = distance;
-							System.out.println("Here bro !!");
-							printListNoeuds(listNoeud);
-							parcoursCorrecte.add(listNoeud, distance);
-						}else{
-							listePassage.add(listNoeud, distance);
-						}
-					}
-				}else{
-					if (nodeFils.equals(nodeArrive)) {
-						distanceMinimum = distance;
-						System.out.println("Here bro !!");
-						printListNoeuds(listNoeud);
-						parcoursCorrecte.add(listNoeud, distance);
-					}else{
-						listePassage.add(listNoeud, distance);
-					}
-				}
 
+				if (nodeFils.equals(nodeArrive)) {
+					System.out.println("Here bro !!");
+					printListNoeuds(listNoeud);
+					parcoursCorrecte.add(listNoeud, distance);
+				}else{
+					listePassage.add(listNoeud, distance);
+				}
 			}
 		}
 
