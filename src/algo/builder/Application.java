@@ -13,18 +13,18 @@ public class Application {
 		MapBuilder mb = new MapBuilder();
 		try {
 			
-			mb.load("TestFiles/test1.txt");
+			mb.load("TestFiles/test.txt");
 			// mb.show(mb.graph);
 
 			MapFrame mf = new MapFrame(mb.nbcol, mb.nbligne, mb.graph);
 
 			Djikstra d = new Djikstra(mb.graph);
 
-			// Node nodeDepart = mb.graph.getNode(3, 3);
-			// Node nodeArrive = mb.graph.getNode(38, 1);
+			Node nodeDepart = mb.graph.getNode(3, 3);
+			Node nodeArrive = mb.graph.getNode(38, 1);
 
-			Node nodeDepart = mb.graph.getNode(1, 2);
-			Node nodeArrive = mb.graph.getNode(4, 5);
+			// Node nodeDepart = mb.graph.getNode(1, 2);
+			// Node nodeArrive = mb.graph.getNode(4, 5);
 
 			LinkedPriorityQueue listeCheminPlusCourt = d.cheminPlusCourt(
 					nodeDepart, nodeArrive);

@@ -32,11 +32,16 @@ public class Djikstra {
 		listNoeud.add(nodePere);
 		listePassage.add(listNoeud, distance);
 		boolean foundPath = false;
+		int count = 0;
 		while (listePassage.getLinkSimple() != null) {
-			System.out.println(listePassage.getLinkSimple().getDistance());
 			listNoeudActuel = listePassage.poll();
 
 			nodePere = listNoeudActuel.get(listNoeudActuel.size() - 1);
+			if (count == -1) {
+				System.out.println(" ##### " + nodeFils.toString());
+				nodePere = nodeFils;
+			}
+
 			for (Edge e : nodePere.getEdges()) {
 				nodeFils = e.getOther(nodePere);
 
@@ -56,14 +61,21 @@ public class Djikstra {
 					parcoursCorrecte.add(listNoeud, distance);
 					foundPath = true;
 				} else {
-					
+					if (count > 10000) {
+						listePassage = new LinkedPriorityQueue();
+						listePassage.add(listNoeud, distance);
+						printListNoeuds(listNoeud);
+						count = -1;
+					}
 					listePassage.add(listNoeud, distance);
+					count++;
 				}
 			}
 			if (foundPath)
 				break;
 		}
 
+		parcoursCorrecte.add(listNoeud, distance);
 		listePassage = parcoursCorrecte;
 		// this.printPaths(listePassage);
 		return listePassage;
