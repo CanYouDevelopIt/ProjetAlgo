@@ -119,4 +119,26 @@ public class MapBuilder {
 
 	}
 
+	public void deplacerSouris(List<Node> cheminPlusCourt, MapFrame mf) {
+		
+		for (int i = 1; i < cheminPlusCourt.size() - 1; i++) {
+			mf.setVisible(false);
+			Node noeudActuel = cheminPlusCourt.get(i);
+			noeudActuel = graph.getNode(noeudActuel.getX(), noeudActuel.getY());
+			noeudActuel.setId("S");
+			mf = new MapFrame(this.nbcol, this.nbligne, this.graph);
+
+			try {
+				Thread.currentThread();
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			// mf.repaint();
+
+			noeudActuel.setId(noeudActuel.getIdOrigine());
+		}
+		
+	}
+
 }

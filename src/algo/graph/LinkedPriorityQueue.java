@@ -92,6 +92,10 @@ public class LinkedPriorityQueue {
 	public List<Node> peek() {
 		return linkSimple.getListNodes();
 	}
+	
+	public int peekDistance() {
+		return linkSimple.distance;
+	}
 
 	public int size() {
 		return getListCount();

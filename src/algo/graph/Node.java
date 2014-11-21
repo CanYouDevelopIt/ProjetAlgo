@@ -10,6 +10,8 @@ public class Node {
 	private int x;
 	private int y;
 	private List<Edge> mesEdges;
+	private int minDistance = 999999;
+	private Node nodePrecedent;
 
 	public Node(String unId, int x, int y) {
 		id = unId;
@@ -50,7 +52,23 @@ public class Node {
 	public void setIdOrigine(String idOrigine) {
 		this.idOrigine = idOrigine;
 	}
+	
+	public int getMinDistance() {
+		return minDistance;
+	}
 
+	public void setMinDistance(int minDistance) {
+		this.minDistance = minDistance;
+	}
+
+	public Node getNodePrecedent() {
+		return nodePrecedent;
+	}
+
+	public void setNodePrecedent(Node nodePrecedent) {
+		this.nodePrecedent = nodePrecedent;
+	}
+	
 	public String toString() {
 		return "[" + this.x + "," + this.y + "]";
 	}

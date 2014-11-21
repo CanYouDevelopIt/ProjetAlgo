@@ -2,7 +2,9 @@ package algo.builder;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
+import algo.graph.Dijkstra;
 import algo.graph.Djikstra;
 import algo.graph.LinkedPriorityQueue;
 import algo.graph.Node;
@@ -18,18 +20,26 @@ public class Application {
 
 			MapFrame mf = new MapFrame(mb.nbcol, mb.nbligne, mb.graph);
 
-			Djikstra d = new Djikstra(mb.graph);
+			//Djikstra d = new Djikstra(mb.graph);
 
 			Node nodeDepart = mb.graph.getNode(3, 3);
 			Node nodeArrive = mb.graph.getNode(38, 1);
-
+			
+			
 			// Node nodeDepart = mb.graph.getNode(1, 2);
 			// Node nodeArrive = mb.graph.getNode(4, 5);
 
-			LinkedPriorityQueue listeCheminPlusCourt = d.cheminPlusCourt(
-					nodeDepart, nodeArrive);
-			mb.deplacerSouris(listeCheminPlusCourt, mf);
-
+			//LinkedPriorityQueue listeCheminPlusCourt = d.cheminPlusCourt(nodeDepart, nodeArrive);
+			//mb.deplacerSouris(listeCheminPlusCourt, mf);
+			
+			
+			//-----NEW-----
+			Dijkstra d = new Dijkstra(mb.graph, nodeDepart, nodeArrive);
+			List<Node> cheminPlusCourt = d.cheminPlusCourt();
+			
+			mb.deplacerSouris(cheminPlusCourt, mf);
+			
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
