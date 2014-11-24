@@ -64,4 +64,20 @@ public class Dijkstra {
 		return cheminPlusCourt;
 	}
 	
+	public Node getNodeArrive() {
+		return nodeArrive;
+	}
+
+	public void setNodeArrive(Node nodeArrive) {
+		this.nodeArrive = nodeArrive;
+	}
+
+	public Node getNodeDepart() {
+		return nodeDepart;
+	}
+
+	public void setNodeDepart(Node nodeDepart) {
+		this.nodeDepart = nodeDepart;
+	}
+	
 }

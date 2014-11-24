@@ -55,12 +55,22 @@ public class MapBuilder {
 				for (int j = 0; j < nodes[i].length; j++) {
 					if (nodes[i][j] != null) {
 						graph.registerNode(nodes[i][j]);
-						if (nodes[i][j + 1] != null) {
-							new Edge(nodes[i][j], nodes[i][j + 1], 1);
+						if(nodes[i][j].getId().equals("G")){
+							if (nodes[i][j + 1] != null) {
+								new Edge(nodes[i][j], nodes[i][j + 1], 2);
+							}
+							if (nodes[i + 1][j] != null) {
+								new Edge(nodes[i][j], nodes[i + 1][j], 2);
+							}
+						}else{
+							if (nodes[i][j + 1] != null) {
+								new Edge(nodes[i][j], nodes[i][j + 1], 1);
+							}
+							if (nodes[i + 1][j] != null) {
+								new Edge(nodes[i][j], nodes[i + 1][j], 1);
+							}
 						}
-						if (nodes[i + 1][j] != null) {
-							new Edge(nodes[i][j], nodes[i + 1][j], 1);
-						}
+
 					}
 				}
 			}
@@ -95,45 +105,38 @@ public class MapBuilder {
 		}
 	}
 
-	public void deplacerSouris(LinkedPriorityQueue listePassage, MapFrame mf) {
-
-		List<Node> cheminNoeud = listePassage.peek();
-
-		for (int i = 1; i < cheminNoeud.size() - 1; i++) {
-			mf.setVisible(false);
-			Node noeudActuel = cheminNoeud.get(i);
-			noeudActuel = graph.getNode(noeudActuel.getX(), noeudActuel.getY());
-			noeudActuel.setId("S");
-			mf = new MapFrame(this.nbcol, this.nbligne, this.graph);
-
+	public void deplacerSouris(MapFrame mf) {
+		
+		System.out.println("test");
+		
+		Node nodeDepart = this.graph.getNode(3, 3);
+		Node nodeArrive = this.graph.getNode(38, 1);
+		
+		System.out.println(nodeDepart.getId() + " = " + nodeArrive.getId());
+		
+		int i = 1;
+		
+		Dijkstra d = new Dijkstra(this.graph, nodeDepart, nodeArrive);
+		List<Node> cheminPlusCourt = d.cheminPlusCourt();
+		nodeDepart = cheminPlusCourt.get(i);
+		System.out.println(nodeDepart.getId());
+		
+		while(!nodeDepart.equals(d.getNodeArrive())){
+			
+			System.out.println("boucle while");
+			
+			mf.repaintFrame(nodeDepart.getX(), nodeDepart.getY());
 			try {
-				Thread.currentThread();
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			// mf.repaint();
-
-			noeudActuel.setId(noeudActuel.getIdOrigine());
-		}
-
-	}
-
-	public void deplacerSouris(List<Node> cheminPlusCourt, MapFrame mf) {
-		
-		for (int i = 1; i < cheminPlusCourt.size() - 1; i++) {
-			Node noeudActuel = cheminPlusCourt.get(i);
-			graph.getNode(noeudActuel.getX(), noeudActuel.getY()).setId("S");
-			//noeudActuel.setId("S");
-			mf.repaintFrame(graph);
 			
-//			try {
-//				Thread.sleep(500);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-
-			graph.getNode(noeudActuel.getX(), noeudActuel.getY()).setId(noeudActuel.getIdOrigine());
+			i++;
+			cheminPlusCourt = d.cheminPlusCourt();
+			nodeDepart = cheminPlusCourt.get(i);	
+			
 		}
 		
 	}

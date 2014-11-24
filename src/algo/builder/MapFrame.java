@@ -2,6 +2,8 @@ package algo.builder;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,41 +13,83 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import algo.graph.CheeseListener;
 import algo.graph.Graph;
 import algo.graph.Node;
 
 public class MapFrame extends JFrame {
-
-	private Graph graph;
-	private int nbligne;
-	private int nbcol;
 	
 	private JPanel jpNord;
 	private JPanel jpSud;
+	private MapBuilder mb;
+	private MapFrame mf;
 	
-	public MapFrame(int nbcol_, int nbligne_, Graph graph_) {
+	public MapFrame(MapBuilder mb_) {
 		
-		this.graph = graph_;
-		this.nbcol = nbcol_;
-		this.nbligne = nbligne_;
+		mb = mb_;
+		mf = this;
 		
 		setTitle("Simulateur de foule");
-		setSize(nbcol * 26, nbligne * 26 + 80);
+		setSize(mb.nbcol * 26, mb.nbligne * 26 + 80);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		jpNord = new JPanel();
+		//jpNord = new JPanel();
 		jpSud = new JPanel();
+
+		this.affichageMap();
 		
-		System.out.println(nbcol);
-		System.out.println(nbligne);
-		GridLayout g = new GridLayout(nbligne, nbcol);
+		JLabel labelTour = new JLabel("TOUR : 0");
+		JLabel labelDeplacement = new JLabel("DEPLACEMENTS : 0");
+		JLabel labelNbSourisEnCours = new JLabel("SOURIS EN DEPLACEMENTS : 0");
+		JLabel labelNbSourisArrive = new JLabel("SOURIS ARRIVEES : 0");
+		
+		JButton buttonLancer = new JButton("Lancer");
+		buttonLancer.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				mb.deplacerSouris(mf);
+			}
+		});
+		
+		jpSud.add(labelTour);
+		jpSud.add(labelDeplacement);
+		jpSud.add(labelNbSourisEnCours);
+		jpSud.add(labelNbSourisArrive);
+		jpSud.add(buttonLancer);
+		
+		//this.getContentPane().add(jpNord, BorderLayout.NORTH);
+		this.getContentPane().add(jpSud, BorderLayout.SOUTH);
+		
+		setVisible(true);
+	}
+	
+	public void repaintFrame(int x, int y){
+		
+		mb.graph.getNode(x,y).setId("S");
+		
+		System.out.println("repaint");
+		
+		this.affichageMap();
+		this.revalidate();
+		this.repaint();
+		
+		mb.graph.getNode(x, y).setId(mb.graph.getNode(x,y).getIdOrigine());
+		
+	}
+	
+	public void affichageMap(){
+		
+		jpNord = new JPanel();
+		
+		GridLayout g = new GridLayout(mb.nbligne, mb.nbcol);
 		jpNord.setLayout(g);
-		for (int i = 0; i < nbligne; i++) {
-			for (int j = 0; j < nbcol; j++) {
-				Node node = graph.getNode(j, i);
+		for (int i = 0; i < mb.nbligne; i++) {
+			for (int j = 0; j < mb.nbcol; j++) {
+				Node node = mb.graph.getNode(j, i);
 				if (node != null) {
 					if (node.getId().equals(" ")) {
 						JLabel picLabel = new JLabel(new ImageIcon(
@@ -78,33 +122,16 @@ public class MapFrame extends JFrame {
 			}
 		}
 		
-		JLabel labelTour = new JLabel("TOUR : 0");
-		JLabel labelDeplacement = new JLabel("DEPLACEMENTS : 0");
-		JLabel labelNbSourisEnCours = new JLabel("SOURIS EN DEPLACEMENTS : 0");
-		JLabel labelNbSourisArrive = new JLabel("SOURIS ARRIVEES : 0");
-		
-		JButton buttonLancer = new JButton("Lancer");
-		
-		jpSud.add(labelTour);
-		jpSud.add(labelDeplacement);
-		jpSud.add(labelNbSourisEnCours);
-		jpSud.add(labelNbSourisArrive);
-		jpSud.add(buttonLancer);
-		
 		this.getContentPane().add(jpNord, BorderLayout.NORTH);
-		this.getContentPane().add(jpSud, BorderLayout.SOUTH);
 		
-		setVisible(true);
 	}
 	
-	public void repaintFrame(Graph graph_){
-		
-		this.graph = graph_;
-//		this.invalidate();
-//		this.validate();
-//		this.repaint();
-		jpNord.revalidate();
-		jpNord.repaint();
-		
+	public MapBuilder getMb() {
+		return mb;
 	}
+
+	public void setMb(MapBuilder mb) {
+		this.mb = mb;
+	}
+	
 }
