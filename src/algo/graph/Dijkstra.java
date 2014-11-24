@@ -57,9 +57,9 @@ public class Dijkstra {
 		}
 		Collections.reverse(cheminPlusCourt);
 		
-		for(int i = 0; i < cheminPlusCourt.size(); i++){
-			System.out.print(cheminPlusCourt.get(i).getId() + "-");
-		}
+//		for(int i = 0; i < cheminPlusCourt.size(); i++){
+//			System.out.print(cheminPlusCourt.get(i).getId() + "-");
+//		}
 		
 		return cheminPlusCourt;
 	}

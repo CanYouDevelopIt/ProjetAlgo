@@ -122,21 +122,18 @@ public class MapBuilder {
 	public void deplacerSouris(List<Node> cheminPlusCourt, MapFrame mf) {
 		
 		for (int i = 1; i < cheminPlusCourt.size() - 1; i++) {
-			mf.setVisible(false);
 			Node noeudActuel = cheminPlusCourt.get(i);
-			noeudActuel = graph.getNode(noeudActuel.getX(), noeudActuel.getY());
-			noeudActuel.setId("S");
-			mf = new MapFrame(this.nbcol, this.nbligne, this.graph);
+			graph.getNode(noeudActuel.getX(), noeudActuel.getY()).setId("S");
+			//noeudActuel.setId("S");
+			mf.repaintFrame(graph);
+			
+//			try {
+//				Thread.sleep(500);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
 
-			try {
-				Thread.currentThread();
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			// mf.repaint();
-
-			noeudActuel.setId(noeudActuel.getIdOrigine());
+			graph.getNode(noeudActuel.getX(), noeudActuel.getY()).setId(noeudActuel.getIdOrigine());
 		}
 		
 	}
