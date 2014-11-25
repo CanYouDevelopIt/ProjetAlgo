@@ -17,8 +17,9 @@ public class Application {
 			
 			mb.load("TestFiles/test.txt");
 			MapFrame mf = new MapFrame(mb);
-			//mf.getMb().deplacerSouris(mf);
 			
+			//mf.getMb().deplacerSouris(mf);
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

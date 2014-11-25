@@ -112,8 +112,6 @@ public class MapBuilder {
 		Node nodeDepart = this.graph.getNode(3, 3);
 		Node nodeArrive = this.graph.getNode(38, 1);
 		
-		System.out.println(nodeDepart.getId() + " = " + nodeArrive.getId());
-		
 		int i = 1;
 		
 		Dijkstra d = new Dijkstra(this.graph, nodeDepart, nodeArrive);
@@ -122,16 +120,25 @@ public class MapBuilder {
 		System.out.println(nodeDepart.getId());
 		
 		while(!nodeDepart.equals(d.getNodeArrive())){
+						
+			System.out.println( nodeDepart.getX() + " - " + nodeDepart.getY());
 			
-			System.out.println("boucle while");
+			graph.getNode(nodeDepart.getX(),nodeDepart.getY()).setId("S");
 			
 			mf.repaintFrame(nodeDepart.getX(), nodeDepart.getY());
+			
 			try {
-				Thread.sleep(500);
+				if(nodeDepart.getIdOrigine().equals("G")){
+					Thread.sleep(1000);										
+				}else{
+					Thread.sleep(500);					
+				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			graph.getNode(nodeDepart.getX(),nodeDepart.getY()).setId(graph.getNode(nodeDepart.getX(),nodeDepart.getY()).getIdOrigine());
 			
 			i++;
 			cheminPlusCourt = d.cheminPlusCourt();
