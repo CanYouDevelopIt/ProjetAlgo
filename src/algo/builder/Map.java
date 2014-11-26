@@ -191,19 +191,8 @@ public class Map extends JFrame implements ActionListener{
 	}
 	
 	public void repaintFrame(){
-		this.actualiserMap();
 		this.validate();
 		this.repaint();
-
-//		JOptionPane.showMessageDialog(null, "fesvgrsf");
-//		try {
-//			JOptionPane.showMessageDialog(null, "fesvgrsf");
-//			Thread.sleep(500);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
 	}
 	
 	public void deplacerSouris() {
@@ -211,36 +200,42 @@ public class Map extends JFrame implements ActionListener{
 		Node nodeDepart = this.graph.getNode(3, 3);
 		Node nodeArrive = this.graph.getNode(38, 1);
 		
-		int i = 1;
+		//int i = 1;
 		
 		Dijkstra d = new Dijkstra(this.graph, nodeDepart, nodeArrive);
 		List<Node> cheminPlusCourt = d.cheminPlusCourt();
-		nodeDepart = cheminPlusCourt.get(i);
+		nodeDepart = cheminPlusCourt.get(1);
 		
 		while(!nodeDepart.equals(d.getNodeArrive())){
 						
 			//System.out.println( nodeDepart.getX() + " - " + nodeDepart.getY());
 			
+			//PLACEMENT DE LA SOURIS
 			graph.getNode(nodeDepart.getX(),nodeDepart.getY()).setId("S");
 			
+			//ACTUALISER LA MAP
 			this.actualiserMap();
 			this.repaintFrame();
 			
+			//SLEEP
 			try {
 				if(nodeDepart.getIdOrigine().equals("G")){
 					Thread.sleep(500);
 				}else{
-					Thread.sleep(500);
+					Thread.sleep(250);
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			
+			//REMETTRE L'ANCIENNE VALEUR AVANT SOURIS
 			graph.getNode(nodeDepart.getX(),nodeDepart.getY()).setId(graph.getNode(nodeDepart.getX(),nodeDepart.getY()).getIdOrigine());
 			
-			i++;
-			cheminPlusCourt = d.cheminPlusCourt();
-			nodeDepart = cheminPlusCourt.get(i);	
+			//i++;
+
+			nodeDepart = cheminPlusCourt.get(1);
+			d.setNodeDepart(graph.getNode(nodeDepart.getX(),nodeDepart.getY()));
+			cheminPlusCourt = d.cheminPlusCourt();	
 			
 		}
 		
