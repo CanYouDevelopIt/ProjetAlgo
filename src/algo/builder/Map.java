@@ -116,7 +116,11 @@ public class Map extends JFrame implements ActionListener {
 		setTitle("Simulateur de foule");
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension d = tk.getScreenSize();
-		setSize(d.width / 2, d.height / 2);
+		if(nbligne == 0 & nbcol == 0){
+			setSize(d.width / 2, d.height / 2);
+		} else {
+			setSize(nbcol * 26, nbligne * 26 + 80);
+		}
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -270,7 +274,7 @@ public class Map extends JFrame implements ActionListener {
 			}
 			Toolkit tk = Toolkit.getDefaultToolkit();
 			Dimension d = tk.getScreenSize();
-			setSize(nbcol * 26, d.height / 2);
+			setSize(nbcol * 26, nbligne * 26 + 80);
 
 			actualiserMap();
 		}
@@ -290,7 +294,7 @@ public class Map extends JFrame implements ActionListener {
 
 			Toolkit tk = Toolkit.getDefaultToolkit();
 			Dimension d = tk.getScreenSize();
-			setSize(nbcol * 26, d.height / 2);
+			setSize(nbcol * 26, nbligne * 26 + 80);
 
 			actualiserMap();
 		}
