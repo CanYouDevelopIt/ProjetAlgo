@@ -9,21 +9,12 @@ import algo.graph.Djikstra;
 import algo.graph.LinkedPriorityQueue;
 import algo.graph.Node;
 
-public class Application {
-
+public class Application{
+		
 	public static void main(String[] args) {
-		MapBuilder mb = new MapBuilder();
-		try {
-			
-			mb.load("TestFiles/test.txt");
-			MapFrame mf = new MapFrame(mb);
-			
-			//mf.getMb().deplacerSouris(mf);
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			Map m = new Map("TestFiles/test.txt");		
+			m.setVisible(true);
 
 	}
 
