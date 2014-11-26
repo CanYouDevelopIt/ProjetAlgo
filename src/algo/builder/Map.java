@@ -211,15 +211,15 @@ public class Map extends JFrame implements ActionListener {
 		Node nodeDepart = this.graph.getNode(3, 3);
 		Node nodeArrive = this.graph.getNode(38, 1);
 
-		// int i = 1;
+		int i = 1;
 
 		Dijkstra d = new Dijkstra(this.graph, nodeDepart, nodeArrive);
 		List<Node> cheminPlusCourt = d.cheminPlusCourt();
-		nodeDepart = cheminPlusCourt.get(0);
+		nodeDepart = cheminPlusCourt.get(i);
 
 		while (!nodeDepart.equals(d.getNodeArrive())) {
 
-			nodeDepart = cheminPlusCourt.get(1);
+			//nodeDepart = cheminPlusCourt.get(1);
 
 			// PLACEMENT DE LA SOURIS
 			graph.getNode(nodeDepart.getX(), nodeDepart.getY()).setId("S");
@@ -244,12 +244,12 @@ public class Map extends JFrame implements ActionListener {
 					graph.getNode(nodeDepart.getX(), nodeDepart.getY())
 							.getIdOrigine());
 
-			// i++;
+			i++;
 
-			d = new Dijkstra(this.graph, nodeDepart, nodeArrive);
-			cheminPlusCourt = d.cheminPlusCourt();
-			System.out.println("Size =  " + cheminPlusCourt.size());
-
+			//d = new Dijkstra(this.graph, nodeDepart, nodeArrive);
+			//cheminPlusCourt = d.cheminPlusCourt();
+			//System.out.println("Size =  " + cheminPlusCourt.size());
+			nodeDepart = cheminPlusCourt.get(i);
 		}
 
 	}
