@@ -70,7 +70,7 @@ public class MapFrame extends JFrame {
 								Images.buisson));
 						jpNord.add(picLabel);
 					} else if (node.getId().equals("S")) {
-						System.out.println("Souris trouvé = " + i + " - " + j);
+						System.out.println("Souris trouvï¿½ = " + i + " - " + j);
 						JLabel picLabel = new JLabel(new ImageIcon(
 								Images.souris));
 						jpNord.add(picLabel);
@@ -118,7 +118,7 @@ public class MapFrame extends JFrame {
 		System.out.println("repaint");
 		
 		this.affichageMap();
-		this.revalidate();
+		this.validate();
 		this.repaint();
 		
 		//mb.graph.getNode(x, y).setId(mb.graph.getNode(x,y).getIdOrigine());
@@ -159,7 +159,7 @@ public class MapFrame extends JFrame {
 								Images.buisson));
 						jpNord.add(picLabel);
 					} else if (node.getId().equals("S")) {
-						System.out.println("Souris trouvé = " + i + " - " + j);
+						System.out.println("Souris trouvï¿½ = " + i + " - " + j);
 						JLabel picLabel = new JLabel(new ImageIcon(
 								Images.souris));
 						jpNord.add(picLabel);

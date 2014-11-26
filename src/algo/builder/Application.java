@@ -9,12 +9,12 @@ import algo.graph.Djikstra;
 import algo.graph.LinkedPriorityQueue;
 import algo.graph.Node;
 
-public class Application{
-		
+public class Application {
+
 	public static void main(String[] args) {
 
-			Map m = new Map("TestFiles/test.txt");		
-			m.setVisible(true);
+		Map m = new Map();
+		m.setVisible(true);
 
 	}
 
