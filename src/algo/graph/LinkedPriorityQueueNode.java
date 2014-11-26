@@ -60,7 +60,7 @@ public class LinkedPriorityQueueNode {
 			return linkSimple.getNode();
 		}
 	}
-
+	
 	public Node peek() {
 		return linkSimple.getNode();
 	}

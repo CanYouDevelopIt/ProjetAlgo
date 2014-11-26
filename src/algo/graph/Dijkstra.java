@@ -76,8 +76,18 @@ public class Dijkstra {
 		return nodeDepart;
 	}
 
-	public void setNodeDepart(Node nodeDepart) {
-		this.nodeDepart = nodeDepart;
+	public void setNodeDepart(Node nodeDepart_) {
+		this.nodeDepart = nodeDepart_;
+		listePassage = new LinkedPriorityQueueNode();
+		listePassage.add(nodeDepart);
+	}
+
+	public Graph getGraph() {
+		return graph;
+	}
+
+	public void setGraph(Graph graph) {
+		this.graph = graph;
 	}
 	
 }
