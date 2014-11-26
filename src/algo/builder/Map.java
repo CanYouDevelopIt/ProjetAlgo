@@ -261,9 +261,18 @@ public class Map extends JFrame implements ActionListener {
 		}
 
 		if (e.getSource().equals(buttonLoadFile)) {
-			JOptionPane.showMessageDialog(null, " Lets do this");
-			initMap();
+			// initMap();
+			try {
+				loadFichier("TestFiles/test.txt");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			Toolkit tk = Toolkit.getDefaultToolkit();
+			Dimension d = tk.getScreenSize();
+			setSize(nbcol * 26, d.height / 2);
 
+			actualiserMap();
 		}
 	}
 
