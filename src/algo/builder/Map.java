@@ -35,7 +35,10 @@ public class Map extends JFrame implements ActionListener {
 	private Node[][] nodes;
 	private int nbligne;
 	private int nbcol;
-
+	
+	private Node nodeDepart;
+	private Node nodeArrive;
+	
 	private JPanel jpNord;
 	private JPanel jpSud;
 	private JButton buttonLancer;
@@ -98,6 +101,13 @@ public class Map extends JFrame implements ActionListener {
 				for (int j = 0; j < nodes[i].length; j++) {
 					if (nodes[i][j] != null) {
 						graph.registerNode(nodes[i][j]);
+						
+						if (nodes[i][j].getId().equals("D")) {
+							nodeDepart = nodes[i][j];
+						}else if (nodes[i][j].getId().equals("A")) {
+							nodeArrive = nodes[i][j];
+						}
+						
 						if (nodes[i][j].getId().equals("G")) {
 							if (nodes[i][j + 1] != null) {
 								new Edge(nodes[i][j], nodes[i][j + 1], 2);
@@ -134,11 +144,14 @@ public class Map extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		// this.actualiserMap();
+		
+		jpNord = new JPanel();
+		jpNord.setBackground(new java.awt.Color(201, 128, 55));
+		
 		jpSud = new JPanel();
 		jpSud.setBackground(new java.awt.Color(201, 128, 55));
-
-		// this.actualiserMap();
-
+		
 		JLabel labelTour = new JLabel("Tour: " + nbTour);
 		JLabel labelDeplacement = new JLabel("Déplacements: " + nbDeplacement);
 		JLabel labelNbSourisEnCours = new JLabel("Souris en déplacement: " + nbSourisEnCours);
@@ -169,7 +182,8 @@ public class Map extends JFrame implements ActionListener {
 		jpSud.add(labelVitesse);
 		jpSud.add(fieldVitesse);
 		jpSud.add(buttonLancer);
-
+		
+		this.getContentPane().add(jpNord, BorderLayout.NORTH);
 		this.getContentPane().add(jpSud, BorderLayout.SOUTH);
 		this.getContentPane().setBackground(new java.awt.Color(201, 128, 55));
 	}
@@ -227,7 +241,6 @@ public class Map extends JFrame implements ActionListener {
 		JLabel labelNbSourisEnCours = new JLabel("Souris en déplacement: " + nbSourisEnCours);
 		JLabel labelNbSourisArrive = new JLabel("Souris arrivées: " + nbSourisArrivees);
 		
-
 		buttonLancer = new JButton("Lancer");
 		buttonLoadFile = new JButton("Load File");
 		buttonLancer.addActionListener(this);
@@ -266,9 +279,6 @@ public class Map extends JFrame implements ActionListener {
 	}
 
 	public void deplacerSouris() {
-
-		Node nodeDepart = this.graph.getNode(3, 3);
-		Node nodeArrive = this.graph.getNode(38, 1);
 		
 		nbSourisSorties = Integer.parseInt(fieldNbSourisSorti.getText());
 		System.out.println("Nb souris envoyees : " + nbSourisSorties);
@@ -284,54 +294,21 @@ public class Map extends JFrame implements ActionListener {
 		
 		while(nbSourisSorties != nbSourisArrivees){
 			
-//			for(int i = 0; i < listeSouris.size(); i++){
-//				
-//				Dijkstra d = new Dijkstra(graph, graph.getNode(listeSouris.get(i).getX(), listeSouris.get(i).getY()), nodeArrive);
-//				List<Node> cheminPlusCourt = d.cheminPlusCourt();
-//				
-//				try {
-//					if (cheminPlusCourt.get(0).getIdOrigine().equals("G")) {
-//						Thread.sleep(vitesseDeplacement*2);
-//					} else {
-//						Thread.sleep(vitesseDeplacement);
-//					}
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//				
-//				graph.getNode(cheminPlusCourt.get(1).getX(), cheminPlusCourt.get(1).getY()).setId("S");
-//				nbDeplacement++;
-//				
-//				// ACTUALISER LA MAP
-//				this.actualiserMap();
-//				this.repaintFrame();
-//				
-//				graph.getNode(cheminPlusCourt.get(1).getX(), cheminPlusCourt.get(1).getY()).setId(cheminPlusCourt.get(1).getIdOrigine());
-//				if(cheminPlusCourt.get(1).equals(nodeArrive)){
-//					nbSourisArrivees++;
-//				}
-//			}
+			nbSourisEnCours = 0;
+			for(int i = 0; i < listeSouris.size(); i++){
+				if(!listeSouris.get(i).equals(nodeDepart) && !listeSouris.get(i).equals(nodeArrive)){
+					nbSourisEnCours++;
+				}	
+			}
 			
-			int i = 1;
-			Dijkstra d = new Dijkstra(this.graph, nodeDepart, nodeArrive);
-			List<Node> cheminPlusCourt = d.cheminPlusCourt();
-			Node nodeSouris = cheminPlusCourt.get(i);
-			
-			
-			while (!nodeSouris.equals(d.getNodeArrive())) {
+			for(int i = 0; i < listeSouris.size(); i++){
 				
-				// DEPLACEMENT DE LA SOURIS
-				graph.getNode(nodeSouris.getX(), nodeSouris.getY()).setId("S");
-				nbDeplacement++;
-				nbTour++;
+				//CREATION DIJKSTRA DEPUIS POSITION SOURIS
+				Dijkstra d = new Dijkstra(graph, graph.getNode(listeSouris.get(0).getX(), listeSouris.get(0).getY()), graph.getNode(nodeArrive.getX(),nodeArrive.getY()));
+				List<Node> cheminPlusCourt = d.cheminPlusCourt();
 				
-				// ACTUALISER LA MAP
-				this.actualiserMap();
-				this.repaintFrame();
-			
-				// SLEEP
 				try {
-					if (nodeSouris.getIdOrigine().equals("G")) {
+					if (cheminPlusCourt.get(0).getIdOrigine().equals("G")) {
 						Thread.sleep(vitesseDeplacement*2);
 					} else {
 						Thread.sleep(vitesseDeplacement);
@@ -339,21 +316,44 @@ public class Map extends JFrame implements ActionListener {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				
+				//PLACER GRAPHIQUEMENT LA SOURIS
+				graph.getNode(cheminPlusCourt.get(0).getX(), cheminPlusCourt.get(0).getY()).setId(cheminPlusCourt.get(0).getIdOrigine());
+				graph.getNode(cheminPlusCourt.get(1).getX(), cheminPlusCourt.get(1).getY()).setId("S");
+
+				//SET NOUVELLE POSITION SOURIS
+				listeSouris.set(i, cheminPlusCourt.get(1));
+				nbDeplacement++;
+				
+				// SI UNE SOURIS COMMENCE A SE DEPLACER ++ 
+				if(cheminPlusCourt.get(0).equals(nodeDepart) &&  !cheminPlusCourt.get(1).equals(nodeDepart)){
+					nbSourisEnCours++;
+				}
+				
+				// SI UNE SOURIS EST ARRIVEE
+				if(cheminPlusCourt.get(1).equals(nodeArrive)){
+					graph.getNode(cheminPlusCourt.get(1).getX(), cheminPlusCourt.get(1).getY()).setId(cheminPlusCourt.get(1).getIdOrigine());
+					nbSourisArrivees++;
+					nbSourisEnCours--;
+				}
+				
+				if(listeSouris.size() == 1){
+					nbTour++;
+				}
+				
+				// ACTUALISER LA MAP
+				this.actualiserMap();
+				this.repaintFrame();
 			
-				// REMETTRE L'ANCIENNE VALEUR AVANT SOURIS
-				graph.getNode(nodeSouris.getX(), nodeSouris.getY()).setId(
-						graph.getNode(nodeSouris.getX(), nodeSouris.getY())
-								.getIdOrigine());
-			
-				i++;
-				nodeSouris = cheminPlusCourt.get(i);
 			}
 			
-			nbSourisArrivees++;
-			
-			// ACTUALISER LA MAP
-			this.actualiserMap();
-			this.repaintFrame();
+			//EVITE PROBLEME REFRESH
+			if(listeSouris.size() > 1){
+				nbTour++;
+				// ACTUALISER LA MAP
+				this.actualiserMap();
+				this.repaintFrame();
+			}
 		}
 		
 	}

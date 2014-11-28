@@ -27,6 +27,8 @@ public class Dijkstra {
 		List<Node> cheminPlusCourt = new ArrayList<Node>();
 		
 		nodeDepart.setMinDistance(0);
+		nodeDepart.setNodePrecedent(null);
+		
 		Node nodeActuel = null;
 		Node nodeFils = null;
 		int distanceActuel;
@@ -57,9 +59,45 @@ public class Dijkstra {
 		}
 		Collections.reverse(cheminPlusCourt);
 		
-//		for(int i = 0; i < cheminPlusCourt.size(); i++){
-//			System.out.print(cheminPlusCourt.get(i).getId() + "-");
-//		}
+		return cheminPlusCourt;
+	}
+	
+	public List<Node> cheminPlusCourtOptimiser(){ //RECODER POUR GERER PLUSIEURS SOURIS
+		
+		List<Node> cheminPlusCourt = new ArrayList<Node>();
+		
+		nodeDepart.setMinDistance(0);
+		nodeDepart.setNodePrecedent(null);
+		
+		Node nodeActuel = null;
+		Node nodeFils = null;
+		int distanceActuel;
+		
+		while(listePassage.size() > 0){
+			
+			nodeActuel = listePassage.poll();
+			
+			for(Edge e : nodeActuel.getEdges()){
+				
+				nodeFils = e.getOther(nodeActuel);
+				distanceActuel = e.getDistance() + nodeActuel.getMinDistance();
+				
+				if(distanceActuel < nodeFils.getMinDistance()){
+					
+					nodeFils.setMinDistance(distanceActuel);
+					nodeFils.setNodePrecedent(nodeActuel);
+					listePassage.add(nodeFils);
+					
+				}
+				
+			}
+			
+		}
+		
+		for(Node n = nodeArrive; n != null; n = n.getNodePrecedent()){
+			cheminPlusCourt.add(n);
+		}
+		Collections.reverse(cheminPlusCourt);
 		
 		return cheminPlusCourt;
 	}

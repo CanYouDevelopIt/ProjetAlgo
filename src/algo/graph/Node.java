@@ -28,7 +28,15 @@ public class Node {
 	public int getY() {
 		return y;
 	}
+	
+	public void setX(int x_) {
+		x = x_;
+	}
 
+	public void setY(int y_) {
+		y = y_;
+	}
+	
 	public List<Edge> getEdges() {
 		return mesEdges;
 	}
@@ -38,6 +46,8 @@ public class Node {
 	}
 
 	public boolean equals(Node n) {
+		if (n == null)
+				return false;
 		return this.x == n.getX() && this.y == n.getY();
 	}
 
