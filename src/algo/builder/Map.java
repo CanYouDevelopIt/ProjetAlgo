@@ -50,7 +50,7 @@ public class Map extends JFrame implements ActionListener {
 	private int nbDeplacement = 0;
 	private int nbSourisEnCours = 0;
 	private int nbSourisArrivees = 0;
-	private int nbSourisSorties = 1;
+	private int nbSourisSorties = 2;
 	private int vitesseDeplacement = 500;
 	
 	// public Map(String f) {
@@ -304,58 +304,61 @@ public class Map extends JFrame implements ActionListener {
 			for(int i = 0; i < listeSouris.size(); i++){
 				
 				//CREATION DIJKSTRA DEPUIS POSITION SOURIS
-				Dijkstra d = new Dijkstra(graph, graph.getNode(listeSouris.get(0).getX(), listeSouris.get(0).getY()), graph.getNode(nodeArrive.getX(),nodeArrive.getY()));
-				List<Node> cheminPlusCourt = d.cheminPlusCourt();
+				Dijkstra d = new Dijkstra(graph, graph.getNode(listeSouris.get(i).getX(), listeSouris.get(i).getY()), graph.getNode(nodeArrive.getX(),nodeArrive.getY()));
+				List<Node> cheminPlusCourt = d.cheminPlusCourtOptimiser();
 				
-				try {
-					if (cheminPlusCourt.get(0).getIdOrigine().equals("G")) {
-						Thread.sleep(vitesseDeplacement*2);
-					} else {
-						Thread.sleep(vitesseDeplacement);
+				System.out.println("cheminPlusCourt = " + cheminPlusCourt.size());
+				if(cheminPlusCourt.size() > 1){
+				
+					try {
+						if (cheminPlusCourt.get(0).getIdOrigine().equals("G")) {
+							Thread.sleep(vitesseDeplacement*2);
+						} else {
+							Thread.sleep(vitesseDeplacement);
+						}
+					} catch (InterruptedException e) {
+						e.printStackTrace();
 					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				
-				//PLACER GRAPHIQUEMENT LA SOURIS
-				graph.getNode(cheminPlusCourt.get(0).getX(), cheminPlusCourt.get(0).getY()).setId(cheminPlusCourt.get(0).getIdOrigine());
-				graph.getNode(cheminPlusCourt.get(1).getX(), cheminPlusCourt.get(1).getY()).setId("S");
-
-				//SET NOUVELLE POSITION SOURIS
-				listeSouris.set(i, cheminPlusCourt.get(1));
-				nbDeplacement++;
-				
-				// SI UNE SOURIS COMMENCE A SE DEPLACER ++ 
-				if(cheminPlusCourt.get(0).equals(nodeDepart) &&  !cheminPlusCourt.get(1).equals(nodeDepart)){
-					nbSourisEnCours++;
-				}
-				
-				// SI UNE SOURIS EST ARRIVEE
-				if(cheminPlusCourt.get(1).equals(nodeArrive)){
-					graph.getNode(cheminPlusCourt.get(1).getX(), cheminPlusCourt.get(1).getY()).setId(cheminPlusCourt.get(1).getIdOrigine());
-					nbSourisArrivees++;
-					nbSourisEnCours--;
+					
+//					if(graph.getNode(cheminPlusCourt.get(1).getX(), cheminPlusCourt.get(1).getY()).getId().equals("S")){
+//						i = 0;
+//						System.out.println("Souris");
+//						continue;
+//					}else{				
+						//PLACER GRAPHIQUEMENT LA SOURIS
+						graph.getNode(cheminPlusCourt.get(0).getX(), cheminPlusCourt.get(0).getY()).setId(cheminPlusCourt.get(0).getIdOrigine());
+						graph.getNode(cheminPlusCourt.get(1).getX(), cheminPlusCourt.get(1).getY()).setId("S");
+		
+						//SET NOUVELLE POSITION SOURIS
+						listeSouris.set(i, cheminPlusCourt.get(1));
+						nbDeplacement++;
+						
+						// SI UNE SOURIS COMMENCE A SE DEPLACER ++ 
+						if(cheminPlusCourt.get(0).equals(nodeDepart) &&  !cheminPlusCourt.get(1).equals(nodeDepart)){
+							nbSourisEnCours++;
+						}
+						
+						// SI UNE SOURIS EST ARRIVEE
+						if(cheminPlusCourt.get(1).equals(nodeArrive)){
+							graph.getNode(cheminPlusCourt.get(1).getX(), cheminPlusCourt.get(1).getY()).setId(cheminPlusCourt.get(1).getIdOrigine());
+							nbSourisArrivees++;
+							nbSourisEnCours--;
+						}
+						
+					//}
 				}
 				
 				if(listeSouris.size() == 1){
+					nbTour++;
+				}else if(i == listeSouris.size() - 1){
 					nbTour++;
 				}
 				
 				// ACTUALISER LA MAP
 				this.actualiserMap();
 				this.repaintFrame();
-			
 			}
-			
-			//EVITE PROBLEME REFRESH
-			if(listeSouris.size() > 1){
-				nbTour++;
-				// ACTUALISER LA MAP
-				this.actualiserMap();
-				this.repaintFrame();
-			}
-		}
-		
+		}	
 	}
 
 	@Override

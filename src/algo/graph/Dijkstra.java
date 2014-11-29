@@ -18,6 +18,18 @@ public class Dijkstra {
 		this.nodeDepart = nd;
 		this.nodeArrive = na;
 		
+		//REINITIALISER
+		for(Node n: graph.getNodes()){
+			n.setNodePrecedent(null);
+			n.setMinDistance(999999);
+		}
+		
+		nodeDepart.setNodePrecedent(null);
+		nodeDepart.setMinDistance(0);
+		
+		nodeArrive.setNodePrecedent(null);
+		nodeArrive.setMinDistance(999999);
+		
 		listePassage.add(nodeDepart);
 		
 	}
@@ -48,10 +60,8 @@ public class Dijkstra {
 					nodeFils.setNodePrecedent(nodeActuel);
 					listePassage.add(nodeFils);
 					
-				}
-				
+				}	
 			}
-			
 		}
 		
 		for(Node n = nodeArrive; n != null; n = n.getNodePrecedent()){
@@ -78,20 +88,22 @@ public class Dijkstra {
 			nodeActuel = listePassage.poll();
 			
 			for(Edge e : nodeActuel.getEdges()){
-				
+
 				nodeFils = e.getOther(nodeActuel);
 				distanceActuel = e.getDistance() + nodeActuel.getMinDistance();
 				
-				if(distanceActuel < nodeFils.getMinDistance()){
-					
-					nodeFils.setMinDistance(distanceActuel);
-					nodeFils.setNodePrecedent(nodeActuel);
-					listePassage.add(nodeFils);
-					
+				if((nodeFils.getId().equals("S") && distanceActuel < 2) || nodeFils.getId().equals("D")){
+					System.out.println("une souris en face fdp");
 				}
-				
+				else{	
+					if(distanceActuel < nodeFils.getMinDistance()){
+						
+						nodeFils.setMinDistance(distanceActuel);
+						nodeFils.setNodePrecedent(nodeActuel);
+						listePassage.add(nodeFils);
+					}
+				}	
 			}
-			
 		}
 		
 		for(Node n = nodeArrive; n != null; n = n.getNodePrecedent()){

@@ -11,7 +11,7 @@ public class Node {
 	private int y;
 	private List<Edge> mesEdges;
 	private int minDistance = 999999;
-	private Node nodePrecedent;
+	private Node nodePrecedent = null;
 
 	public Node(String unId, int x, int y) {
 		id = unId;
