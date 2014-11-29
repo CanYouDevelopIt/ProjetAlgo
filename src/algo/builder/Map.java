@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -286,17 +287,17 @@ public class Map extends JFrame implements ActionListener {
 		vitesseDeplacement = Integer.parseInt(fieldVitesse.getText());
 		System.out.println("Vitesse : " + vitesseDeplacement);
 		
-		List<Node> listeSouris = new ArrayList<Node>();
+		List <Souris> listeSouris = new ArrayList<Souris>();
 		for(int i = 0; i < nbSourisSorties; i++){
 			Node nodeSouris = nodeDepart;
-			listeSouris.add(nodeSouris);
+			listeSouris.add(new Souris(i,nodeSouris));
 		}
 		
 		while(nbSourisSorties != nbSourisArrivees){
 			
 			nbSourisEnCours = 0;
 			for(int i = 0; i < listeSouris.size(); i++){
-				if(!listeSouris.get(i).equals(nodeDepart) && !listeSouris.get(i).equals(nodeArrive)){
+				if(!listeSouris.get(i).getNodeSouris().equals(nodeDepart) && !listeSouris.get(i).getNodeSouris().equals(nodeArrive)){
 					nbSourisEnCours++;
 				}	
 			}
@@ -304,10 +305,9 @@ public class Map extends JFrame implements ActionListener {
 			for(int i = 0; i < listeSouris.size(); i++){
 				
 				//CREATION DIJKSTRA DEPUIS POSITION SOURIS
-				Dijkstra d = new Dijkstra(graph, graph.getNode(listeSouris.get(i).getX(), listeSouris.get(i).getY()), graph.getNode(nodeArrive.getX(),nodeArrive.getY()));
+				Dijkstra d = new Dijkstra(graph, graph.getNode(listeSouris.get(i).getNodeSouris().getX(), listeSouris.get(i).getNodeSouris().getY()), graph.getNode(nodeArrive.getX(),nodeArrive.getY()),listeSouris.get(i).getNodesDejaPasses());
 				List<Node> cheminPlusCourt = d.cheminPlusCourtOptimiser();
 				
-				System.out.println("cheminPlusCourt = " + cheminPlusCourt.size());
 				if(cheminPlusCourt.size() > 1){
 				
 					try {
@@ -319,18 +319,14 @@ public class Map extends JFrame implements ActionListener {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					
-//					if(graph.getNode(cheminPlusCourt.get(1).getX(), cheminPlusCourt.get(1).getY()).getId().equals("S")){
-//						i = 0;
-//						System.out.println("Souris");
-//						continue;
-//					}else{				
+								
 						//PLACER GRAPHIQUEMENT LA SOURIS
 						graph.getNode(cheminPlusCourt.get(0).getX(), cheminPlusCourt.get(0).getY()).setId(cheminPlusCourt.get(0).getIdOrigine());
 						graph.getNode(cheminPlusCourt.get(1).getX(), cheminPlusCourt.get(1).getY()).setId("S");
 		
 						//SET NOUVELLE POSITION SOURIS
-						listeSouris.set(i, cheminPlusCourt.get(1));
+						listeSouris.get(i).setNodeSouris(cheminPlusCourt.get(1));
+						//listeSouris.get(i).ajouterNodeDejaPasse(cheminPlusCourt.get(0));
 						nbDeplacement++;
 						
 						// SI UNE SOURIS COMMENCE A SE DEPLACER ++ 
@@ -339,13 +335,12 @@ public class Map extends JFrame implements ActionListener {
 						}
 						
 						// SI UNE SOURIS EST ARRIVEE
-						if(cheminPlusCourt.get(1).equals(nodeArrive)){
-							graph.getNode(cheminPlusCourt.get(1).getX(), cheminPlusCourt.get(1).getY()).setId(cheminPlusCourt.get(1).getIdOrigine());
+						if(listeSouris.get(i).getNodeSouris().equals(nodeArrive)){
+							graph.getNode(listeSouris.get(i).getNodeSouris().getX(), listeSouris.get(i).getNodeSouris().getY()).setId(listeSouris.get(i).getNodeSouris().getIdOrigine());
 							nbSourisArrivees++;
 							nbSourisEnCours--;
 						}
 						
-					//}
 				}
 				
 				if(listeSouris.size() == 1){

@@ -37,9 +37,9 @@ public class Application {
 		new Edge(E, G, 10);
 		new Edge(F, G, 20);
 
-		Dijkstra d = new Dijkstra(graph,A,G);
-
-		d.cheminPlusCourt();
+//		Dijkstra d = new Dijkstra(graph,A,G);
+//
+//		d.cheminPlusCourt();
 		
 	}
 

@@ -10,13 +10,15 @@ public class Dijkstra {
 	private LinkedPriorityQueueNode listePassage;
 	private Node nodeDepart;
 	private Node nodeArrive;
+	private List<Node> nodesDejaPasses;
 	
-	public Dijkstra(Graph g, Node nd, Node na){
+	public Dijkstra(Graph g, Node nd, Node na, List<Node> ln){
 		
 		graph = g;
 		this.listePassage = new LinkedPriorityQueueNode();
 		this.nodeDepart = nd;
 		this.nodeArrive = na;
+		this.nodesDejaPasses = ln;
 		
 		//REINITIALISER
 		for(Node n: graph.getNodes()){
@@ -81,6 +83,7 @@ public class Dijkstra {
 		
 		Node nodeActuel = null;
 		Node nodeFils = null;
+		boolean nodeInterdit;
 		int distanceActuel;
 		
 		while(listePassage.size() > 0){
@@ -92,7 +95,15 @@ public class Dijkstra {
 				nodeFils = e.getOther(nodeActuel);
 				distanceActuel = e.getDistance() + nodeActuel.getMinDistance();
 				
-				if((nodeFils.getId().equals("S") && distanceActuel < 2) || nodeFils.getId().equals("D")){
+				nodeInterdit = false;
+				
+				for(int i = 0; i < nodesDejaPasses.size(); i++){
+					if(nodesDejaPasses.get(i).equals(nodeFils)){
+						nodeInterdit = true;
+					}
+				}
+				
+				if((nodeFils.getId().equals("S") && distanceActuel < 2) || nodeFils.getId().equals("D") || nodeInterdit){
 					System.out.println("une souris en face fdp");
 				}
 				else{	
