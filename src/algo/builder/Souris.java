@@ -43,6 +43,5 @@ public class Souris {
 	public void setNodeSouris(Node nodeSouris) {
 		this.nodeSouris = nodeSouris;
 	}
-
 	
 }

@@ -37,30 +37,26 @@ public class Map extends JFrame implements ActionListener {
 	private int nbligne;
 	private int nbcol;
 	
-	private Node nodeDepart;
 	private Node nodeArrive;
 	
 	private JPanel jpNord;
 	private JPanel jpSud;
 	private JButton buttonLancer;
 	private JButton buttonLoadFile;
-	private JTextField fieldNbSourisSorti;
+	
+	private List<JTextField> listFieldNbSourisSorti = new ArrayList<JTextField>();
+	private List<Integer> listNbSourisSorti = new ArrayList<Integer>();
+	private List<Node> listNodeDepart = new ArrayList<Node>();
+	
 	private JTextField fieldVitesse;
 	
+	private int nbPorte = 0;
 	private int nbTour = 0;
 	private int nbDeplacement = 0;
 	private int nbSourisEnCours = 0;
 	private int nbSourisArrivees = 0;
-	private int nbSourisSorties = 2;
+	private int nbSourisSorties = 0;
 	private int vitesseDeplacement = 500;
-	
-	// public Map(String f) {
-	// try {
-	// this.loadFichier(f);
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// }
 
 	public Map() {
 		buildMap();
@@ -104,9 +100,11 @@ public class Map extends JFrame implements ActionListener {
 						graph.registerNode(nodes[i][j]);
 						
 						if (nodes[i][j].getId().equals("D")) {
-							nodeDepart = nodes[i][j];
+							//nodeDepart = nodes[i][j];
+							listNodeDepart.add(nodes[i][j]);
+							nbPorte++;
 						}else if (nodes[i][j].getId().equals("A")) {
-							nodeArrive = nodes[i][j];
+							nodeArrive = nodes[i][j];	
 						}
 						
 						if (nodes[i][j].getId().equals("G")) {
@@ -156,13 +154,7 @@ public class Map extends JFrame implements ActionListener {
 		JLabel labelTour = new JLabel("Tour: " + nbTour);
 		JLabel labelDeplacement = new JLabel("Déplacements: " + nbDeplacement);
 		JLabel labelNbSourisEnCours = new JLabel("Souris en déplacement: " + nbSourisEnCours);
-		JLabel labelNbSourisArrive = new JLabel("Souris arrivées: " + nbSourisArrivees);
-		
-		JLabel labelPorte = new JLabel("Porte: ");
-		fieldNbSourisSorti = new JTextField();
-		fieldNbSourisSorti.setPreferredSize(new Dimension(30, 20));
-		fieldNbSourisSorti.setText(Integer.toString(nbSourisSorties));
-		
+		JLabel labelNbSourisArrive = new JLabel("Souris arrivées: " + nbSourisArrivees);		
 		JLabel labelVitesse = new JLabel("Vitesse: ");
 		fieldVitesse = new JTextField();
 		fieldVitesse.setPreferredSize(new Dimension(30, 20));
@@ -178,8 +170,6 @@ public class Map extends JFrame implements ActionListener {
 		jpSud.add(labelDeplacement);
 		jpSud.add(labelNbSourisEnCours);
 		jpSud.add(labelNbSourisArrive);
-		jpSud.add(labelPorte);
-		jpSud.add(fieldNbSourisSorti);
 		jpSud.add(labelVitesse);
 		jpSud.add(fieldVitesse);
 		jpSud.add(buttonLancer);
@@ -247,11 +237,6 @@ public class Map extends JFrame implements ActionListener {
 		buttonLancer.addActionListener(this);
 		buttonLoadFile.addActionListener(this);
 		
-		JLabel labelPorte = new JLabel("Porte: ");
-		fieldNbSourisSorti = new JTextField();
-		fieldNbSourisSorti.setPreferredSize(new Dimension(30, 20));
-		fieldNbSourisSorti.setText(Integer.toString(nbSourisSorties));
-		
 		JLabel labelVitesse = new JLabel("Vitesse: ");
 		fieldVitesse = new JTextField();
 		fieldVitesse.setPreferredSize(new Dimension(30, 20));
@@ -262,8 +247,13 @@ public class Map extends JFrame implements ActionListener {
 		jpSud.add(labelDeplacement);
 		jpSud.add(labelNbSourisEnCours);
 		jpSud.add(labelNbSourisArrive);
-		jpSud.add(labelPorte);
-		jpSud.add(fieldNbSourisSorti);
+		
+		for(int i = 0; i < nbPorte; i++){
+			JLabel labelPorte = new JLabel("Porte " + (i+1) + " :");
+			jpSud.add(labelPorte);
+			jpSud.add(listFieldNbSourisSorti.get(i));
+		}
+		
 		jpSud.add(labelVitesse);
 		jpSud.add(fieldVitesse);
 		jpSud.add(buttonLancer);
@@ -281,26 +271,22 @@ public class Map extends JFrame implements ActionListener {
 
 	public void deplacerSouris() {
 		
-		nbSourisSorties = Integer.parseInt(fieldNbSourisSorti.getText());
+		List <Souris> listeSouris = new ArrayList<Souris>();
+		
+		for(int i = 0; i<listNbSourisSorti.size();i++){
+			for(int j = 0; j < listNbSourisSorti.get(i); j++){
+				Node nodeSouris = listNodeDepart.get(i);
+				listeSouris.add(new Souris(nbSourisSorties,nodeSouris));
+				nbSourisSorties ++;
+			}
+		}
+		
 		System.out.println("Nb souris envoyees : " + nbSourisSorties);
 		
 		vitesseDeplacement = Integer.parseInt(fieldVitesse.getText());
 		System.out.println("Vitesse : " + vitesseDeplacement);
 		
-		List <Souris> listeSouris = new ArrayList<Souris>();
-		for(int i = 0; i < nbSourisSorties; i++){
-			Node nodeSouris = nodeDepart;
-			listeSouris.add(new Souris(i,nodeSouris));
-		}
-		
 		while(nbSourisSorties != nbSourisArrivees){
-			
-			nbSourisEnCours = 0;
-			for(int i = 0; i < listeSouris.size(); i++){
-				if(!listeSouris.get(i).getNodeSouris().equals(nodeDepart) && !listeSouris.get(i).getNodeSouris().equals(nodeArrive)){
-					nbSourisEnCours++;
-				}	
-			}
 			
 			for(int i = 0; i < listeSouris.size(); i++){
 				
@@ -330,8 +316,10 @@ public class Map extends JFrame implements ActionListener {
 						nbDeplacement++;
 						
 						// SI UNE SOURIS COMMENCE A SE DEPLACER ++ 
-						if(cheminPlusCourt.get(0).equals(nodeDepart) &&  !cheminPlusCourt.get(1).equals(nodeDepart)){
-							nbSourisEnCours++;
+						for(int j = 0; j < listNodeDepart.size(); j++){
+							if(cheminPlusCourt.get(0).equals(listNodeDepart.get(j)) &&  !cheminPlusCourt.get(1).equals(listNodeDepart.get(j))){
+								nbSourisEnCours++;
+							}	
 						}
 						
 						// SI UNE SOURIS EST ARRIVEE
@@ -361,6 +349,9 @@ public class Map extends JFrame implements ActionListener {
 		if (e.getSource().equals(buttonLancer)) {
 			new Thread(new Runnable() {
 				public void run() {
+					for(int i = 0; i < nbPorte; i++){
+						listNbSourisSorti.add(Integer.parseInt(listFieldNbSourisSorti.get(i).getText()));
+					}
 					deplacerSouris();
 				}
 			}).start();
@@ -377,7 +368,14 @@ public class Map extends JFrame implements ActionListener {
 			Toolkit tk = Toolkit.getDefaultToolkit();
 			Dimension d = tk.getScreenSize();
 			setSize(nbcol * 26, nbligne * 26 + 80);
-
+			
+			for(int i = 0; i < nbPorte; i++){
+				JTextField fieldNbSourisSorti = new JTextField();
+				fieldNbSourisSorti.setPreferredSize(new Dimension(30, 20));
+				fieldNbSourisSorti.setText(Integer.toString(0));
+				listFieldNbSourisSorti.add(fieldNbSourisSorti);
+			}
+			
 			actualiserMap();
 		}
 	}
