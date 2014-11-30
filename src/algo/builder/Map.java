@@ -37,8 +37,6 @@ public class Map extends JFrame implements ActionListener {
 	private int nbligne;
 	private int nbcol;
 	
-	private Node nodeArrive;
-	
 	private JPanel jpNord;
 	private JPanel jpSud;
 	private JButton buttonLancer;
@@ -47,6 +45,8 @@ public class Map extends JFrame implements ActionListener {
 	private List<JTextField> listFieldNbSourisSorti = new ArrayList<JTextField>();
 	private List<Integer> listNbSourisSorti = new ArrayList<Integer>();
 	private List<Node> listNodeDepart = new ArrayList<Node>();
+	private List<Node> listNodeFromage = new ArrayList<Node>();
+	private HashMap<Node,Node> listDepartToFromage = new HashMap<Node,Node>();
 	
 	private JTextField fieldVitesse;
 	
@@ -100,11 +100,10 @@ public class Map extends JFrame implements ActionListener {
 						graph.registerNode(nodes[i][j]);
 						
 						if (nodes[i][j].getId().equals("D")) {
-							//nodeDepart = nodes[i][j];
 							listNodeDepart.add(nodes[i][j]);
 							nbPorte++;
 						}else if (nodes[i][j].getId().equals("A")) {
-							nodeArrive = nodes[i][j];	
+							listNodeFromage.add(nodes[i][j]);
 						}
 						
 						if (nodes[i][j].getId().equals("G")) {
@@ -142,8 +141,6 @@ public class Map extends JFrame implements ActionListener {
 		}
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// this.actualiserMap();
 		
 		jpNord = new JPanel();
 		jpNord.setBackground(new java.awt.Color(201, 128, 55));
@@ -273,10 +270,11 @@ public class Map extends JFrame implements ActionListener {
 		
 		List <Souris> listeSouris = new ArrayList<Souris>();
 		
-		for(int i = 0; i<listNbSourisSorti.size();i++){
+		for(int i = 0; i<listNbSourisSorti.size();i++){	
 			for(int j = 0; j < listNbSourisSorti.get(i); j++){
 				Node nodeSouris = listNodeDepart.get(i);
-				listeSouris.add(new Souris(nbSourisSorties,nodeSouris));
+				Node nodeFromage = listDepartToFromage.get(listNodeDepart.get(i));
+				listeSouris.add(new Souris(nbSourisSorties,nodeSouris,nodeFromage));
 				nbSourisSorties ++;
 			}
 		}
@@ -291,7 +289,7 @@ public class Map extends JFrame implements ActionListener {
 			for(int i = 0; i < listeSouris.size(); i++){
 				
 				//CREATION DIJKSTRA DEPUIS POSITION SOURIS
-				Dijkstra d = new Dijkstra(graph, graph.getNode(listeSouris.get(i).getNodeSouris().getX(), listeSouris.get(i).getNodeSouris().getY()), graph.getNode(nodeArrive.getX(),nodeArrive.getY()),listeSouris.get(i).getNodesDejaPasses());
+				Dijkstra d = new Dijkstra(graph, graph.getNode(listeSouris.get(i).getNodeSouris().getX(), listeSouris.get(i).getNodeSouris().getY()), graph.getNode(listeSouris.get(i).getNodeFromage().getX(),listeSouris.get(i).getNodeFromage().getY()),listeSouris.get(i).getNodesDejaPasses());
 				List<Node> cheminPlusCourt = d.cheminPlusCourtOptimiser();
 				
 				if(cheminPlusCourt.size() > 1){
@@ -323,7 +321,8 @@ public class Map extends JFrame implements ActionListener {
 						}
 						
 						// SI UNE SOURIS EST ARRIVEE
-						if(listeSouris.get(i).getNodeSouris().equals(nodeArrive)){
+						
+						if(listeSouris.get(i).getNodeSouris().equals(listeSouris.get(i).getNodeFromage())){
 							graph.getNode(listeSouris.get(i).getNodeSouris().getX(), listeSouris.get(i).getNodeSouris().getY()).setId(listeSouris.get(i).getNodeSouris().getIdOrigine());
 							nbSourisArrivees++;
 							nbSourisEnCours--;
@@ -377,6 +376,23 @@ public class Map extends JFrame implements ActionListener {
 			}
 			
 			actualiserMap();
+			
+			for(int i = 0; i < listNodeDepart.size(); i++){
+				
+				int distance = 999999;
+				
+				for(int j = 0; j < listNodeFromage.size(); j++){
+					
+					Dijkstra di = new Dijkstra(graph, listNodeDepart.get(i) , listNodeFromage.get(j),null);
+					List<Node> chemin = di.cheminPlusCourtOptimiser();
+					
+					if(distance > chemin.size()){
+						distance = chemin.size();
+						listDepartToFromage.put(listNodeDepart.get(i), listNodeFromage.get(j));
+					}
+				}
+				
+			}
 		}
 	}
 
