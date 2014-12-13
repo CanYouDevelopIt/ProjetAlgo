@@ -7,5 +7,5 @@ public interface Images {
 	public static final String espace = "Images/espace.png";
 	public static final String mur = "Images/mur.png";
 	public static final String souris = "Images/souris.png";
-
+	public static final String sourisBuisson = "Images/sourisBuisson.png";
 }

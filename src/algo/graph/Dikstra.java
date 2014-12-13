@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Dijkstra {
+public class Dikstra {
 	
 	private Graph graph;
 	private LinkedPriorityQueueNode listePassage;
@@ -12,7 +12,7 @@ public class Dijkstra {
 	private Node nodeArrive;
 	private List<Node> nodesDejaPasses;
 	
-	public Dijkstra(Graph g, Node nd, Node na, List<Node> ln){
+	public Dikstra(Graph g, Node nd, Node na, List<Node> ln){
 		
 		graph = g;
 		this.listePassage = new LinkedPriorityQueueNode();
@@ -36,8 +36,9 @@ public class Dijkstra {
 		
 	}
 	
-	public List<Node> cheminPlusCourtOptimiser(){ //RECODER POUR GERER PLUSIEURS SOURIS
+	public List<Node> cheminPlusCourtOptimiser(){
 		
+		List<Node> cheminPlusCourtInverse = new ArrayList<Node>();
 		List<Node> cheminPlusCourt = new ArrayList<Node>();
 		
 		nodeDepart.setMinDistance(0);
@@ -51,27 +52,31 @@ public class Dijkstra {
 		while(listePassage.size() > 0){
 			
 			nodeActuel = listePassage.poll();
+			//System.out.println(nodeActuel.getEdges().size());
 			
-			for(Edge e : nodeActuel.getEdges()){
-
-				nodeFils = e.getOther(nodeActuel);
-				distanceActuel = e.getDistance() + nodeActuel.getMinDistance();
+			for(Edge unEdge : nodeActuel.getEdges()){
+				
+				nodeFils = unEdge.getOther(nodeActuel);
+				distanceActuel = unEdge.getDistance() + nodeActuel.getMinDistance();
 				
 				nodeInterdit = false;
 				
 				if(nodesDejaPasses != null){
 					for(int i = 0; i < nodesDejaPasses.size(); i++){
 						if(nodesDejaPasses.get(i).equals(nodeFils)){
+							//System.out.println("INTERDIT !!!!!!" + nodesDejaPasses.get(i).getX() + ";" + nodesDejaPasses.get(i).getY());
 							nodeInterdit = true;
 						}
 					}
 				}
 				
 				if((nodeFils.getId().equals("S") && distanceActuel < 2) || nodeFils.getId().equals("D") || nodeInterdit){
-					System.out.println("une souris en face fdp");
+					//System.out.println("une souris en face batard");
 				}
 				else{	
 					if(distanceActuel < nodeFils.getMinDistance()){
+						
+						//System.out.println(nodeFils.getX() + ";" + nodeFils.getY());
 						
 						nodeFils.setMinDistance(distanceActuel);
 						nodeFils.setNodePrecedent(nodeActuel);
@@ -82,9 +87,12 @@ public class Dijkstra {
 		}
 		
 		for(Node n = nodeArrive; n != null; n = n.getNodePrecedent()){
-			cheminPlusCourt.add(n);
+			cheminPlusCourtInverse.add(n);
 		}
-		Collections.reverse(cheminPlusCourt);
+		
+		for(int i = cheminPlusCourtInverse.size() - 1; i >= 0; i--){
+			cheminPlusCourt.add(cheminPlusCourtInverse.get(i));
+		}
 		
 		return cheminPlusCourt;
 	}

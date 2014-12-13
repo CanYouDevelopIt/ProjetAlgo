@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import algo.graph.Dijkstra;
+import algo.graph.Dikstra;
 import algo.graph.Edge;
 import algo.graph.Graph;
 import algo.graph.Node;
@@ -65,6 +65,7 @@ public class Map extends JFrame implements ActionListener {
 	public void loadFichier(String f) throws IOException {
 		fichier = new File(f);
 		graph = new Graph();
+		
 		if (fichier.exists()) {
 			BufferedReader br = new BufferedReader(new FileReader(fichier));
 			String ligne;
@@ -209,8 +210,17 @@ public class Map extends JFrame implements ActionListener {
 						jpNord.add(picLabel);
 					} else if (node.getId().equals("S")) {
 						System.out.println("Souris trouvees: " + i + "-" + j);
-						JLabel picLabel = new JLabel(new ImageIcon(
-								Images.souris));
+						
+						JLabel picLabel = null;
+						
+						if(node.getIdOrigine().equals("G")){
+							 picLabel = new JLabel(new ImageIcon(
+									Images.sourisBuisson));
+						}else{
+							 picLabel = new JLabel(new ImageIcon(
+									Images.souris));
+						}
+
 						jpNord.add(picLabel);
 					}
 				} else {
@@ -288,8 +298,8 @@ public class Map extends JFrame implements ActionListener {
 			
 			for(int i = 0; i < listeSouris.size(); i++){
 				
-				//CREATION DIJKSTRA DEPUIS POSITION SOURIS
-				Dijkstra d = new Dijkstra(graph, graph.getNode(listeSouris.get(i).getNodeSouris().getX(), listeSouris.get(i).getNodeSouris().getY()), graph.getNode(listeSouris.get(i).getNodeFromage().getX(),listeSouris.get(i).getNodeFromage().getY()),listeSouris.get(i).getNodesDejaPasses());
+				//CREATION DIKSTRA DEPUIS POSITION SOURIS
+				Dikstra d = new Dikstra(graph, graph.getNode(listeSouris.get(i).getNodeSouris().getX(), listeSouris.get(i).getNodeSouris().getY()), graph.getNode(listeSouris.get(i).getNodeFromage().getX(),listeSouris.get(i).getNodeFromage().getY()),listeSouris.get(i).getNodesDejaPasses());
 				List<Node> cheminPlusCourt = d.cheminPlusCourtOptimiser();
 				
 				if(cheminPlusCourt.size() > 1){
@@ -336,16 +346,24 @@ public class Map extends JFrame implements ActionListener {
 					nbTour++;
 				}
 				
+				
 				// ACTUALISER LA MAP
 				this.actualiserMap();
 				this.repaintFrame();
 			}
-		}	
+		}
+		
+		buttonLancer.setEnabled(true);
+		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(buttonLancer)) {
+			
+			buttonLancer.setEnabled(false);
+			
+			
 			new Thread(new Runnable() {
 				public void run() {
 					for(int i = 0; i < nbPorte; i++){
@@ -357,25 +375,7 @@ public class Map extends JFrame implements ActionListener {
 		}
 
 		if (e.getSource().equals(buttonLoadFile)) {
-			// initMap();
-			try {
-				loadFichier("TestFiles/test.txt");
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			Toolkit tk = Toolkit.getDefaultToolkit();
-			Dimension d = tk.getScreenSize();
-			setSize(nbcol * 26, nbligne * 26 + 80);
-			
-			for(int i = 0; i < nbPorte; i++){
-				JTextField fieldNbSourisSorti = new JTextField();
-				fieldNbSourisSorti.setPreferredSize(new Dimension(30, 20));
-				fieldNbSourisSorti.setText(Integer.toString(0));
-				listFieldNbSourisSorti.add(fieldNbSourisSorti);
-			}
-			
-			actualiserMap();
+			initMap();
 			
 			for(int i = 0; i < listNodeDepart.size(); i++){
 				
@@ -383,7 +383,7 @@ public class Map extends JFrame implements ActionListener {
 				
 				for(int j = 0; j < listNodeFromage.size(); j++){
 					
-					Dijkstra di = new Dijkstra(graph, listNodeDepart.get(i) , listNodeFromage.get(j),null);
+					Dikstra di = new Dikstra(graph, listNodeDepart.get(i) , listNodeFromage.get(j),null);
 					List<Node> chemin = di.cheminPlusCourtOptimiser();
 					
 					if(distance > chemin.size()){
@@ -397,6 +397,23 @@ public class Map extends JFrame implements ActionListener {
 	}
 
 	private void initMap() {
+		
+		listFieldNbSourisSorti.clear();
+		listNbSourisSorti.clear();
+		listNodeDepart.clear();
+		listNodeFromage.clear();
+		listDepartToFromage.clear();
+		
+		fieldVitesse.setText("500");
+		
+		nbPorte = 0;
+		nbTour = 0;
+		nbDeplacement = 0;
+		nbSourisEnCours = 0;
+		nbSourisArrivees = 0;
+		nbSourisSorties = 0;
+		vitesseDeplacement = 500;
+		
 		JFileChooser fc = new JFileChooser();
 		fc.setCurrentDirectory(new File("TestFiles/"));
 		fc.setDialogTitle("Choisir Fichier de Simulation");
@@ -408,10 +425,15 @@ public class Map extends JFrame implements ActionListener {
 			} catch (IOException e) {
 			}
 
-			Toolkit tk = Toolkit.getDefaultToolkit();
-			Dimension d = tk.getScreenSize();
 			setSize(nbcol * 26, nbligne * 26 + 80);
-
+			
+			for(int i = 0; i < nbPorte; i++){
+				JTextField fieldNbSourisSorti = new JTextField();
+				fieldNbSourisSorti.setPreferredSize(new Dimension(30, 20));
+				fieldNbSourisSorti.setText(Integer.toString(1));
+				listFieldNbSourisSorti.add(fieldNbSourisSorti);
+			}
+			
 			actualiserMap();
 		}
 		System.out.println("Over");
