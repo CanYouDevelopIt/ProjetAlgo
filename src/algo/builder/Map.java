@@ -362,7 +362,12 @@ public class Map extends JFrame implements ActionListener {
 		if (e.getSource().equals(buttonLancer)) {
 			
 			buttonLancer.setEnabled(false);
-			
+			nbTour = 0;
+			nbDeplacement = 0;
+			nbSourisEnCours = 0;
+			nbSourisArrivees = 0;
+			nbSourisSorties = 0;
+			listNbSourisSorti.clear();
 			
 			new Thread(new Runnable() {
 				public void run() {
